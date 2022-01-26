@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
-import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 @Slf4j
@@ -27,6 +27,7 @@ public class CustomerCareNotificationService implements NotificationConnector {
 
     @Override
     public void sendMessage(MailRequest mailRequest) throws MailException { //TODO handle messaging exception
+        Assert.notNull(mailRequest, "the MailRequest must not be null");
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper;
         helper = new MimeMessageHelper(mimeMessage);
@@ -35,8 +36,9 @@ public class CustomerCareNotificationService implements NotificationConnector {
             helper.setText(mailRequest.getContent());
             helper.setTo(mailRequest.getTo());
             helper.setSubject(mailRequest.getSubject());
+            helper.setReplyTo(mailRequest.getReplyTo());
             mailSender.send(mimeMessage);
-        } catch (MessagingException e) {
+        } catch (Exception e) {
             throw new MailException(e);
         }
 

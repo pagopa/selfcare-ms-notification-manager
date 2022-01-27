@@ -2,21 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: ms-<__NAME__>
-  name: ms-<__NAME__>
+    app: ms-notification-manager
+  name: ms-notification-manager
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ms-<__NAME__>
+      app: ms-notification-manager
   template:
     metadata:
       labels:
-        app: ms-<__NAME__>
+        app: ms-notification-manager
     spec:
       containers:
-        - name: ms-<__NAME__>
-          image: selcdacr.azurecr.io/selfcarems<__NAME__>
+        - name: ms-notification-manager
+          image: selcdacr.azurecr.io/selfcaremsnotificationmanager
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -24,9 +24,11 @@ spec:
             - secretRef:
                 name: application-insights
             - secretRef:
-                name: mongo-credentials
+                name: mail-not-pec
             - configMapRef:
-                name: ms-<__NAME__>
+                name: ms-notification-manager
+            - configMapRef:
+                name: common
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness

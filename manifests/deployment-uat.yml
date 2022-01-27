@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: ms-notification-manager
-          image: selcuacr.azurecr.io/selfcaremsnotification-manager
+          image: selcuacr.azurecr.io/selfcaremsnotificationmanager
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -24,9 +24,11 @@ spec:
             - secretRef:
                 name: application-insights
             - secretRef:
-                name: mongo-credentials
+                name: mail-not-pec
             - configMapRef:
                 name: ms-notification-manager
+            - configMapRef:
+                name: common
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness

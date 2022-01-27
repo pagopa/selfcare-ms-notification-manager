@@ -10,10 +10,10 @@ import javax.validation.Validator;
 
 @Aspect
 @Component
-public class NameControllerResponseValidator extends ControllerResponseValidator {//TODO change Name
+public class NotificationControllerResponseValidator extends ControllerResponseValidator {
 
     @Autowired
-    public NameControllerResponseValidator(Validator validator) {
+    public NotificationControllerResponseValidator(Validator validator) {
         super(validator);
     }
 

@@ -15,6 +15,11 @@
             <groupId>it.pagopa.selfcare</groupId>
             <artifactId>selc-notification-manager-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>it.pagopa.selfcare</groupId>
+            <artifactId>selc-notification-manager-connector-email</artifactId>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 
     <build>

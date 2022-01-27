@@ -1,17 +1,23 @@
 package it.pagopa.selfcare.notification_manager.web.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import it.pagopa.selfcare.notification_manager.core.NotificationService;
+import it.pagopa.selfcare.notification_manager.web.model.CreateMessageDto;
+import it.pagopa.selfcare.notification_manager.web.model.mapper.MessageMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
+@Slf4j
 @RestController
-@RequestMapping("/notifications")
-@Api(tags = "notification_manager")
+@RequestMapping("/notifications/v1")
+@Api(tags = "notification-manager")
 public class NotificationController {
 
     private final NotificationService notificationService;
@@ -22,9 +28,17 @@ public class NotificationController {
         this.notificationService = notificationService;
     }
 
-    @PostMapping("/customer-care")
+    @PostMapping(value = "/customer-care", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    void sendNotificationToCustomerCare() {
+    @ApiOperation(value = "", notes = "${swagger.notification_manager.notifications.api.sendNotificationToCustomerCare}")
+    void sendNotificationToCustomerCare(@ApiParam("${swagger.notification_manager.notifications.model.messageRequest}")
+                                        @RequestBody
+                                        @Valid
+                                                CreateMessageDto createMessageDto) {
+        log.trace("NotificationController.sendNotificationToCustomerCare start");
+        log.debug("createMessageDto = {}", createMessageDto);
+        notificationService.sendMessage(MessageMapper.toMessageRequest(createMessageDto));
+        log.trace("NotificationController.sendNotificationToCustomerCare end");
 
     }
 

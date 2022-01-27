@@ -1,9 +1,10 @@
-package it.pagopa.selfcare.commons.connector.email;
+package it.pagopa.selfcare.notification_manager.connector.email;
 
 import com.icegreen.greenmail.configuration.GreenMailConfiguration;
 import com.icegreen.greenmail.junit5.GreenMailExtension;
 import com.icegreen.greenmail.util.GreenMailUtil;
 import com.icegreen.greenmail.util.ServerSetupTest;
+import it.pagopa.selfcare.notification_manager.api.exception.MailException;
 import it.pagopa.selfcare.notification_manager.api.model.MailRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ import javax.mail.internet.MimeMessage;
                 MailSenderAutoConfiguration.class,
                 CustomerCareNotificationService.class
         })
-@TestPropertySource("classpath:config/email-test.properties")
+@TestPropertySource(value = "classpath:config/email-test.properties")
 class CustomerCareNotificationServiceTest {
     private static final String FROM = "noreply@pagopa.it";
     private static final String TO = "selfcare_ssistenza.pagopa.com";
@@ -70,7 +71,7 @@ class CustomerCareNotificationServiceTest {
         //when
         Executable executable = () -> notificationService.sendMessage(mail);
         //then
-        Assertions.assertThrows(IllegalArgumentException.class, executable);
+        Assertions.assertThrows(MailException.class, executable);
 
 
     }

@@ -1,4 +1,4 @@
-package it.pagopa.selfcare.commons.connector.email;
+package it.pagopa.selfcare.notification_manager.connector.email;
 
 import it.pagopa.selfcare.notification_manager.api.NotificationConnector;
 import it.pagopa.selfcare.notification_manager.api.exception.MailException;
@@ -26,7 +26,9 @@ public class CustomerCareNotificationService implements NotificationConnector {
 
 
     @Override
-    public void sendMessage(MailRequest mailRequest) throws MailException { //TODO handle messaging exception
+    public void sendMessage(MailRequest mailRequest) throws MailException {
+        log.trace("CustomerCareNotificationService.sendMessage start");
+        log.debug("mailRequest = {}", mailRequest);
         Assert.notNull(mailRequest, "the MailRequest must not be null");
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper;
@@ -41,6 +43,8 @@ public class CustomerCareNotificationService implements NotificationConnector {
         } catch (Exception e) {
             throw new MailException(e);
         }
+        log.trace("CustomerCareNotificationService.sendMessage end");
+
 
     }
 }

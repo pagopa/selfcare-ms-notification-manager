@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SelfCareNotificationManagerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SelfCareNameApplication.class, args);
+        SpringApplication.run(SelfCareNotificationManagerApplication.class, args);
     }
 
 }

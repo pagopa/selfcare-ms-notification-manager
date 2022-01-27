@@ -1,4 +1,4 @@
-package it.pagopa.selfcare.commons.connector.email.config;
+package it.pagopa.selfcare.notification_manager.connector.email.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;

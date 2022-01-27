@@ -58,7 +58,7 @@ class SwaggerConfig {
                         .version(environment.getProperty("swagger.version", environment.getProperty("spring.application.version")))
                         .build())
                 .select().apis(RequestHandlerSelectors.basePackage("it.pagopa.selfcare.notification_manager.web.controller")).build()
-                .tags(new Tag("notification_manager", environment.getProperty("swagger.notification_manager.api.description")))
+                .tags(new Tag("notification-manager", environment.getProperty("swagger.notification_manager.api.description")))
                 .directModelSubstitute(LocalTime.class, String.class)
                 .securityContexts(Collections.singletonList(SecurityContext.builder()
                         .securityReferences(defaultAuth())

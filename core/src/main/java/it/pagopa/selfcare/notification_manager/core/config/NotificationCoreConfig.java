@@ -4,6 +4,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource("classpath:config/core-config.properties")
+@PropertySource("classpath:config/email-core-config.properties")
 public class NotificationCoreConfig {
 }

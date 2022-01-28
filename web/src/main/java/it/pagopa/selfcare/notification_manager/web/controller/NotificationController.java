@@ -9,7 +9,6 @@ import it.pagopa.selfcare.notification_manager.web.model.mapper.MessageMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,7 +27,7 @@ public class NotificationController {
         this.notificationService = notificationService;
     }
 
-    @PostMapping(value = "/customer-care", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/customer-care")
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "", notes = "${swagger.notification_manager.notifications.api.sendNotificationToCustomerCare}")
     void sendNotificationToCustomerCare(@ApiParam("${swagger.notification_manager.notifications.model.messageRequest}")

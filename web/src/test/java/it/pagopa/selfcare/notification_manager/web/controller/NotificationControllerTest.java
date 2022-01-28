@@ -53,7 +53,7 @@ class NotificationControllerTest {
                 .content(objectMapper.writeValueAsString(messageDto))
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isNoContent())
                 .andReturn();
         //then
         Assertions.assertEquals(0, result.getResponse().getContentLength());

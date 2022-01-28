@@ -28,7 +28,7 @@ public class NotificationController {
     }
 
     @PostMapping(value = "/customer-care")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "", notes = "${swagger.notification_manager.notifications.api.sendNotificationToCustomerCare}")
     void sendNotificationToCustomerCare(@ApiParam("${swagger.notification_manager.notifications.model.messageRequest}")
                                         @RequestBody

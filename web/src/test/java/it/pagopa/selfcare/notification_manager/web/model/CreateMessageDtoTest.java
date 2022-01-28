@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CreateMessageDtoTest {
+class CreateMessageDtoTest {
     private Validator validator;
     private static final CreateMessageDto CREATE_MESSAGE_DTO = TestUtils.mockInstance(new CreateMessageDto());
 

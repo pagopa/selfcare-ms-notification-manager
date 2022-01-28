@@ -6,7 +6,7 @@ import it.pagopa.selfcare.notification_manager.web.model.CreateMessageDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class MessageMapperTest {
+class MessageMapperTest {
     @Test
     void toMessageRequest_notNull() {
         //given

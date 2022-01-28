@@ -39,7 +39,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void sendMessage(MessageRequest messageRequest) {
         log.trace("NotificationServiceImpl.sendMessage start");
-        log.debug("messageRequest = {}", messageRequest);
+        log.debug("NotificationServiceImpl.sendMessage messageRequest = {}", messageRequest);
         Assert.notNull(messageRequest, "Message request must not be null");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {

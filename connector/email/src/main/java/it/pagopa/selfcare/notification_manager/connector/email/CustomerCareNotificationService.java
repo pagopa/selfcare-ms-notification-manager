@@ -28,7 +28,7 @@ public class CustomerCareNotificationService implements NotificationConnector {
     @Override
     public void sendMessage(MailRequest mailRequest) throws MailException {
         log.trace("CustomerCareNotificationService.sendMessage start");
-        log.debug("mailRequest = {}", mailRequest);
+        log.debug("CustomerCareNotificationService.sendMessage mailRequest = {}", mailRequest);
         Assert.notNull(mailRequest, "the MailRequest must not be null");
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper;

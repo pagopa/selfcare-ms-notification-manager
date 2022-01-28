@@ -13,6 +13,7 @@ public class CreateMessageDto {
     @JsonProperty(required = true)
     @NotBlank
     String content;
+    
     @ApiModelProperty(value = "${swagger.notification_manager.model.subject}", required = true)
     @JsonProperty(required = true)
     @NotBlank

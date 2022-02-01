@@ -7,5 +7,5 @@ public class MessageRequest {
 
     String content;
     String subject;
-
+    String senderEmail;
 }

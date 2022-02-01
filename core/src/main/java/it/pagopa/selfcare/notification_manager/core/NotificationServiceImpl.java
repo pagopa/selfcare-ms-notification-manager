@@ -3,6 +3,7 @@ package it.pagopa.selfcare.notification_manager.core;
 import it.pagopa.selfcare.commons.base.security.SelfCareUser;
 import it.pagopa.selfcare.notification_manager.api.NotificationConnector;
 import it.pagopa.selfcare.notification_manager.api.model.MailRequest;
+import it.pagopa.selfcare.notification_manager.core.exception.MessageRequestException;
 import it.pagopa.selfcare.notification_manager.core.model.MessageRequest;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -37,9 +38,9 @@ public class NotificationServiceImpl implements NotificationService {
 
     @SneakyThrows
     @Override
-    public void sendMessage(MessageRequest messageRequest) {
-        log.trace("NotificationServiceImpl.sendMessage start");
-        log.debug("NotificationServiceImpl.sendMessage messageRequest = {}", messageRequest);
+    public void sendMessage(MessageRequest messageRequest) throws MessageRequestException {
+        log.trace("sendMessage start");
+        log.debug("sendMessage messageRequest = {}", messageRequest);
         Assert.notNull(messageRequest, "Message request must not be null");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
@@ -55,10 +56,18 @@ public class NotificationServiceImpl implements NotificationService {
         mail.setTo(customerCareMail);
         mail.setSubject(customerCareMailSubjectPrefix + messageRequest.getSubject());
         mail.setContent(messageRequest.getContent());
-        mail.setReplyTo(principal.getEmail());
+        if (principal.getEmail() == null) {
+            if (messageRequest.getSenderEmail() != null) {
+                mail.setReplyTo(messageRequest.getSenderEmail());
+            } else {
+                throw new MessageRequestException("Missing replyTo address");
+            }
+        } else {
+            mail.setReplyTo(principal.getEmail());
+        }
 
         notificationService.sendMessage(mail);
-        log.trace("NotificationServiceImpl.sendMessage end");
+        log.trace("sendMessage end");
 
     }
 }

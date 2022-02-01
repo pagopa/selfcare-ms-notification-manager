@@ -16,6 +16,7 @@ class MessageMapperTest {
         //then
         Assertions.assertEquals(messageDto.getContent(), messageRequest.getContent());
         Assertions.assertEquals(messageDto.getSubject(), messageRequest.getSubject());
+        Assertions.assertEquals(messageDto.getSenderEmail(), messageRequest.getSenderEmail());
         TestUtils.reflectionEqualsByName(messageRequest, messageDto);
     }
 

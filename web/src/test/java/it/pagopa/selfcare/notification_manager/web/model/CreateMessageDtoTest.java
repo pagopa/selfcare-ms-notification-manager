@@ -34,6 +34,7 @@ class CreateMessageDtoTest {
         HashMap<String, Class<? extends Annotation>> toCheckMap = new HashMap<>();
         toCheckMap.put("content", NotBlank.class);
         toCheckMap.put("subject", NotBlank.class);
+
         CreateMessageDto messageDto = new CreateMessageDto();
         messageDto.setContent(null);
         messageDto.setSubject(null);

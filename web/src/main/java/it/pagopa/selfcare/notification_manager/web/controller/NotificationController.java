@@ -34,10 +34,10 @@ public class NotificationController {
                                         @RequestBody
                                         @Valid
                                                 CreateMessageDto createMessageDto) {
-        log.trace("NotificationController.sendNotificationToCustomerCare start");
-        log.debug("NotificationController.sendNotificationToCustomerCare createMessageDto = {}", createMessageDto);
+        log.trace("sendNotificationToCustomerCare start");
+        log.debug("sendNotificationToCustomerCare createMessageDto = {}", createMessageDto);
         notificationService.sendMessage(MessageMapper.toMessageRequest(createMessageDto));
-        log.trace("NotificationController.sendNotificationToCustomerCare end");
+        log.trace("sendNotificationToCustomerCare end");
 
     }
 

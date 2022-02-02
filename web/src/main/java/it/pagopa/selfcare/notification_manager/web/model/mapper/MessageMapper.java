@@ -10,6 +10,7 @@ public class MessageMapper {
             message = new MessageRequest();
             message.setContent(messageDto.getContent());
             message.setSubject(messageDto.getSubject());
+            message.setSenderEmail(messageDto.getSenderEmail());
         }
         return message;
     }

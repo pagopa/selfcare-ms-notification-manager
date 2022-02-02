@@ -38,7 +38,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @SneakyThrows
     @Override
-    public void sendMessage(MessageRequest messageRequest) throws MessageRequestException {
+    public void sendMessage(MessageRequest messageRequest) {
         log.trace("sendMessage start");
         log.debug("sendMessage messageRequest = {}", messageRequest);
         Assert.notNull(messageRequest, "Message request must not be null");

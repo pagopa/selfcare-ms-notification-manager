@@ -88,7 +88,7 @@ class NotificationServiceImplTest {
     }
 
     @Test
-    void authenticate_sendMessage() throws MailException, MessageRequestException {
+    void authenticate_sendMessage() throws MailException {
         //given
         SelfCareUser selfCareUser = SelfCareUser.builder("id").email("bgalgamu@email.com").build();
         TestingAuthenticationToken authenticationToken = new TestingAuthenticationToken(selfCareUser, null);

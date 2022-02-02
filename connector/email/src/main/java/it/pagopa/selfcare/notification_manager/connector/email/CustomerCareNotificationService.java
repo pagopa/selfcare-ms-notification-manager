@@ -27,8 +27,8 @@ public class CustomerCareNotificationService implements NotificationConnector {
 
     @Override
     public void sendMessage(MailRequest mailRequest) throws MailException {
-        log.trace("CustomerCareNotificationService.sendMessage start");
-        log.debug("CustomerCareNotificationService.sendMessage mailRequest = {}", mailRequest);
+        log.trace("sendMessage start");
+        log.debug("sendMessage mailRequest = {}", mailRequest);
         Assert.notNull(mailRequest, "the MailRequest must not be null");
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper;
@@ -43,7 +43,7 @@ public class CustomerCareNotificationService implements NotificationConnector {
         } catch (Exception e) {
             throw new MailException(e);
         }
-        log.trace("CustomerCareNotificationService.sendMessage end");
+        log.trace("sendMessage end");
 
 
     }

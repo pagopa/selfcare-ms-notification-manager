@@ -38,7 +38,9 @@ public class CustomerCareNotificationService implements NotificationConnector {
             helper.setText(mailRequest.getContent());
             helper.setTo(mailRequest.getTo());
             helper.setSubject(mailRequest.getSubject());
-            helper.setReplyTo(mailRequest.getReplyTo());
+            if (mailRequest.getReplyTo().isPresent()) {
+                helper.setReplyTo(mailRequest.getReplyTo().get());
+            }
             mailSender.send(mimeMessage);
         } catch (Exception e) {
             throw new MailException(e);

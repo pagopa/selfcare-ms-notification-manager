@@ -29,7 +29,7 @@ import org.springframework.security.test.context.TestSecurityContextHolder;
         properties = {
                 "CUSTOMER_CARE_MAIL=selfcare@assistenza.pagopa.it",
                 "NO_REPLY_MAIL=noreply@pagopa.it",
-                "ENV=TEST"
+                "ENV_TARGET=TEST"
         }
 )
 class NotificationServiceImplTest {
@@ -38,6 +38,7 @@ class NotificationServiceImplTest {
     private static final String SUBJECT = "test subject";
     private static final String FROM = "noreply@pagopa.it";
     private static final String TO = "selfcare@assistenza.pagopa.it";
+    private static final String RECEIVER = "user@email.it";
 
 
     @Autowired
@@ -62,7 +63,7 @@ class NotificationServiceImplTest {
         request.setContent(CONTENT);
         request.setSubject(SUBJECT);
         //when
-        Executable executable = () -> notificationService.sendMessage(request);
+        Executable executable = () -> notificationService.sendMessageToCustomerCare(request);
         //then
         IllegalStateException illegalStateException = Assertions.assertThrows(IllegalStateException.class, executable);
         Assertions.assertEquals("Authentication is required", illegalStateException.getMessage());
@@ -79,7 +80,7 @@ class NotificationServiceImplTest {
         request.setContent(CONTENT);
         request.setSubject(SUBJECT);
         //when
-        Executable executable = () -> notificationService.sendMessage(request);
+        Executable executable = () -> notificationService.sendMessageToCustomerCare(request);
         //then
         IllegalStateException illegalStateException = Assertions.assertThrows(IllegalStateException.class, executable);
         Assertions.assertEquals("Not SelfCareUSer principal", illegalStateException.getMessage());
@@ -88,7 +89,7 @@ class NotificationServiceImplTest {
     }
 
     @Test
-    void authenticate_sendMessage() throws MailException {
+    void authenticate_sendMessageMessageToCustomerCare() throws MailException {
         //given
         SelfCareUser selfCareUser = SelfCareUser.builder("id").email("bgalgamu@email.com").build();
         TestingAuthenticationToken authenticationToken = new TestingAuthenticationToken(selfCareUser, null);
@@ -97,7 +98,7 @@ class NotificationServiceImplTest {
         request.setContent(CONTENT);
         request.setSubject(SUBJECT);
         //when
-        notificationService.sendMessage(request);
+        notificationService.sendMessageToCustomerCare(request);
         //then
         Assertions.assertEquals(SelfCareUser.class, authenticationToken.getPrincipal().getClass());
         Mockito.verify(notificationConnectorMock, Mockito.times(1))
@@ -107,16 +108,16 @@ class NotificationServiceImplTest {
         Assertions.assertEquals(CONTENT, mailRequest.getContent());
         Assertions.assertEquals(FROM, mailRequest.getFrom());
         Assertions.assertEquals(TO, mailRequest.getTo());
-        Assertions.assertEquals(selfCareUser.getEmail(), mailRequest.getReplyTo());
+        Assertions.assertEquals(selfCareUser.getEmail(), mailRequest.getReplyTo().get());
         Mockito.verifyNoMoreInteractions(notificationConnectorMock);
     }
 
     @Test
-    void sendMessage_nullRequest() {
+    void sendMessageToCustomerCare_nullRequest() {
         //given
         MessageRequest request = null;
         //when
-        Executable executable = () -> notificationService.sendMessage(request);
+        Executable executable = () -> notificationService.sendMessageToCustomerCare(request);
         //then
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, executable);
         Assertions.assertEquals("Message request must not be null", exception.getMessage());
@@ -124,7 +125,7 @@ class NotificationServiceImplTest {
     }
 
     @Test
-    void send_messageNullReplyTo() {
+    void sendMessageMessageToCustomerCare_NullReplyTo() {
         //given
         SelfCareUser selfCareUser = SelfCareUser.builder("id").build();
         TestingAuthenticationToken authenticationToken = new TestingAuthenticationToken(selfCareUser, null);
@@ -134,14 +135,14 @@ class NotificationServiceImplTest {
         request.setSubject(SUBJECT);
         request.setSenderEmail(null);
         //when
-        Executable executable = () -> notificationService.sendMessage(request);
+        Executable executable = () -> notificationService.sendMessageToCustomerCare(request);
         //then
         MessageRequestException e = Assertions.assertThrows(MessageRequestException.class, executable);
         Assertions.assertEquals("Missing replyTo address", e.getMessage());
     }
 
     @Test
-    void sendMessage_nullPrincipalEmail() throws MailException {
+    void sendMessageToCustomerCare_nullPrincipalEmail() throws MailException {
         //given
         SelfCareUser selfCareUser = SelfCareUser.builder("id").email(null).build();
         TestingAuthenticationToken authenticationToken = new TestingAuthenticationToken(selfCareUser, null);
@@ -151,7 +152,7 @@ class NotificationServiceImplTest {
         request.setSubject(SUBJECT);
         request.setSenderEmail("bgalgamu@email.com");
         //when
-        notificationService.sendMessage(request);
+        notificationService.sendMessageToCustomerCare(request);
         //then
         Assertions.assertEquals(SelfCareUser.class, authenticationToken.getPrincipal().getClass());
         Mockito.verify(notificationConnectorMock, Mockito.times(1))
@@ -161,7 +162,31 @@ class NotificationServiceImplTest {
         Assertions.assertEquals(CONTENT, mailRequest.getContent());
         Assertions.assertEquals(FROM, mailRequest.getFrom());
         Assertions.assertEquals(TO, mailRequest.getTo());
-        Assertions.assertEquals("bgalgamu@email.com", mailRequest.getReplyTo());
+        Assertions.assertEquals("bgalgamu@email.com", mailRequest.getReplyTo().get());
         Mockito.verifyNoMoreInteractions(notificationConnectorMock);
     }
+
+    @Test
+    void sendMessageToUser() throws MailException {
+        //given
+        MessageRequest request = new MessageRequest();
+        request.setReceiverEmail(RECEIVER);
+        request.setContent(CONTENT);
+        request.setSubject(SUBJECT);
+        //when
+        notificationService.sendMessageToUser(request);
+        //then
+        Mockito.verify(notificationConnectorMock, Mockito.times(1))
+                .sendMessage(mailRequestCaptor.capture());
+        MailRequest mailRequest = mailRequestCaptor.getValue();
+
+        Assertions.assertEquals("TEST - " + SUBJECT, mailRequest.getSubject());
+        Assertions.assertEquals(CONTENT, mailRequest.getContent());
+        Assertions.assertEquals(FROM, mailRequest.getFrom());
+        Assertions.assertEquals(RECEIVER, mailRequest.getTo());
+        Mockito.verifyNoMoreInteractions(notificationConnectorMock);
+
+    }
+
+
 }

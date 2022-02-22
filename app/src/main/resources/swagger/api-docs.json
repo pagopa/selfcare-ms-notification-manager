@@ -30,7 +30,50 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateMessageDto"
+                "$ref": "#/components/schemas/CreateMessageToCustomerCareDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/notifications/v1/user": {
+      "post": {
+        "tags": [
+          "notification-manager"
+        ],
+        "summary": "sendNotificationToUser",
+        "description": "Service that sends the notification to the User",
+        "operationId": "sendNotificationToUserUsingPOST",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMessageToUserDto"
               }
             }
           }
@@ -64,8 +107,8 @@
   },
   "components": {
     "schemas": {
-      "CreateMessageDto": {
-        "title": "CreateMessageDto",
+      "CreateMessageToCustomerCareDto": {
+        "title": "CreateMessageToCustomerCareDto",
         "required": [
           "content",
           "subject"
@@ -79,6 +122,29 @@
           "senderEmail": {
             "type": "string",
             "description": "Notification message sender email"
+          },
+          "subject": {
+            "type": "string",
+            "description": "Notification message subject"
+          }
+        }
+      },
+      "CreateMessageToUserDto": {
+        "title": "CreateMessageToUserDto",
+        "required": [
+          "content",
+          "receiverEmail",
+          "subject"
+        ],
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Notification message content"
+          },
+          "receiverEmail": {
+            "type": "string",
+            "description": "Notification message receiver email"
           },
           "subject": {
             "type": "string",

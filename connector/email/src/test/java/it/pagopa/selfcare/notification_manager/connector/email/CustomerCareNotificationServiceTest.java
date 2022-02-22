@@ -15,7 +15,9 @@ import org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.Optional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE,
         classes = {
@@ -28,6 +30,7 @@ class CustomerCareNotificationServiceTest {
     private static final String TO = "selfcare_ssistenza.pagopa.com";
     private static final String MESSAGE = "test message";
     private static final String SUBJECT = " test";
+    private static final String RECEIVER = "user@mail.com";
 
     @Autowired
     private CustomerCareNotificationService notificationService;
@@ -35,7 +38,8 @@ class CustomerCareNotificationServiceTest {
     @RegisterExtension
     static GreenMailExtension greenMail = new GreenMailExtension(ServerSetupTest.SMTP)
             .withConfiguration(GreenMailConfiguration.aConfig().withUser("username", "password"))
-            .withPerMethodLifecycle(false);
+            .withPerMethodLifecycle(true);
+
 
     @Test
     void sendEmail_WithCorrectPayload() throws Exception {
@@ -45,7 +49,7 @@ class CustomerCareNotificationServiceTest {
         mail.setFrom(FROM);
         mail.setContent(MESSAGE);
         mail.setSubject(SUBJECT);
-        mail.setReplyTo("bgalgamu@nttdata.com");
+        mail.setReplyTo(Optional.of("bgalgamu@nttdata.com"));
         //when
         notificationService.sendMessage(mail);
         //then
@@ -67,13 +71,34 @@ class CustomerCareNotificationServiceTest {
         mail.setFrom(null);
         mail.setContent(MESSAGE);
         mail.setSubject(SUBJECT);
-        mail.setReplyTo("bgalgamui@nttdata.com");
+        mail.setReplyTo(Optional.of("bgalgamu@nttdata.com"));
+
         //when
         Executable executable = () -> notificationService.sendMessage(mail);
         //then
         Assertions.assertThrows(MailException.class, executable);
 
 
+    }
+
+    @Test
+    void sendEmail_emptyReplyTo() throws MailException, MessagingException {
+        //given
+        MailRequest mail = new MailRequest();
+        mail.setTo(RECEIVER);
+        mail.setFrom(FROM);
+        mail.setContent(MESSAGE);
+        mail.setSubject(SUBJECT);
+        mail.setReplyTo(null);
+        //when
+        notificationService.sendMessage(mail);
+        //then
+        MimeMessage receivedMessage = greenMail.getReceivedMessages()[0];
+        Assertions.assertEquals(MESSAGE, GreenMailUtil.getBody(receivedMessage));
+        Assertions.assertEquals(1, receivedMessage.getAllRecipients().length);
+        Assertions.assertEquals(RECEIVER, receivedMessage.getAllRecipients()[0].toString());
+        Assertions.assertEquals(FROM, receivedMessage.getFrom()[0].toString());
+        Assertions.assertEquals(FROM, receivedMessage.getReplyTo()[0].toString());
     }
 
     @Test

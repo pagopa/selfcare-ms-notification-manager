@@ -49,7 +49,7 @@ class CustomerCareNotificationServiceTest {
         mail.setFrom(FROM);
         mail.setContent(MESSAGE);
         mail.setSubject(SUBJECT);
-        mail.setReplyTo(Optional.of("bgalgamu@nttdata.com"));
+        mail.setReplyTo(Optional.of("test@nttdata.com"));
         //when
         notificationService.sendMessage(mail);
         //then
@@ -58,7 +58,7 @@ class CustomerCareNotificationServiceTest {
         Assertions.assertEquals(1, receivedMessage.getAllRecipients().length);
         Assertions.assertEquals(TO, receivedMessage.getAllRecipients()[0].toString());
         Assertions.assertEquals(FROM, receivedMessage.getFrom()[0].toString());
-        Assertions.assertEquals("bgalgamu@nttdata.com", receivedMessage.getReplyTo()[0].toString());
+        Assertions.assertEquals("test@nttdata.com", receivedMessage.getReplyTo()[0].toString());
 
     }
 
@@ -71,7 +71,7 @@ class CustomerCareNotificationServiceTest {
         mail.setFrom(null);
         mail.setContent(MESSAGE);
         mail.setSubject(SUBJECT);
-        mail.setReplyTo(Optional.of("bgalgamu@nttdata.com"));
+        mail.setReplyTo(Optional.of("test@nttdata.com"));
 
         //when
         Executable executable = () -> notificationService.sendMessage(mail);

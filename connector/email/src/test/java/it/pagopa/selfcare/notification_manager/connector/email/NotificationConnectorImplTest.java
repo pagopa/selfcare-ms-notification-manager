@@ -22,10 +22,10 @@ import java.util.Optional;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE,
         classes = {
                 MailSenderAutoConfiguration.class,
-                CustomerCareNotificationService.class
+                NotificationConnectorImpl.class
         })
 @TestPropertySource(value = "classpath:config/email-test.properties")
-class CustomerCareNotificationServiceTest {
+class NotificationConnectorImplTest {
     private static final String FROM = "noreply@pagopa.it";
     private static final String TO = "selfcare_ssistenza.pagopa.com";
     private static final String MESSAGE = "test message";
@@ -33,7 +33,7 @@ class CustomerCareNotificationServiceTest {
     private static final String RECEIVER = "user@mail.com";
 
     @Autowired
-    private CustomerCareNotificationService notificationService;
+    private NotificationConnectorImpl notificationService;
 
     @RegisterExtension
     static GreenMailExtension greenMail = new GreenMailExtension(ServerSetupTest.SMTP)
@@ -49,7 +49,7 @@ class CustomerCareNotificationServiceTest {
         mail.setFrom(FROM);
         mail.setContent(MESSAGE);
         mail.setSubject(SUBJECT);
-        mail.setReplyTo(Optional.of("test@nttdata.com"));
+        mail.setReplyTo(Optional.of("test@example.com"));
         //when
         notificationService.sendMessage(mail);
         //then
@@ -58,7 +58,7 @@ class CustomerCareNotificationServiceTest {
         Assertions.assertEquals(1, receivedMessage.getAllRecipients().length);
         Assertions.assertEquals(TO, receivedMessage.getAllRecipients()[0].toString());
         Assertions.assertEquals(FROM, receivedMessage.getFrom()[0].toString());
-        Assertions.assertEquals("test@nttdata.com", receivedMessage.getReplyTo()[0].toString());
+        Assertions.assertEquals("test@example.com", receivedMessage.getReplyTo()[0].toString());
 
     }
 
@@ -71,7 +71,7 @@ class CustomerCareNotificationServiceTest {
         mail.setFrom(null);
         mail.setContent(MESSAGE);
         mail.setSubject(SUBJECT);
-        mail.setReplyTo(Optional.of("test@nttdata.com"));
+        mail.setReplyTo(Optional.of("test@example.com"));
 
         //when
         Executable executable = () -> notificationService.sendMessage(mail);

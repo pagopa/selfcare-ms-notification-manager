@@ -36,7 +36,7 @@ class NotificationControllerTest {
     private static final String BASE_URL = "/notifications/v1";
     private static final String CONTENT = "test message";
     private static final String SUBJECT = "test subject";
-    private static final String RECEIVER_MAIL = "test@mail.com";
+    private static final String RECEIVER_MAIL = "test@example.com";
 
     @Autowired
     protected MockMvc mvc;

@@ -14,13 +14,13 @@ import javax.mail.internet.MimeMessage;
 
 @Slf4j
 @Service
-public class CustomerCareNotificationService implements NotificationConnector {
+public class NotificationConnectorImpl implements NotificationConnector {
 
     private final JavaMailSender mailSender;
 
 
     @Autowired
-    public CustomerCareNotificationService(JavaMailSender mailSender) {
+    public NotificationConnectorImpl(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
 

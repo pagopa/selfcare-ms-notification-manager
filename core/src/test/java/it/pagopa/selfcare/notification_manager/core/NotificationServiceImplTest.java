@@ -91,7 +91,7 @@ class NotificationServiceImplTest {
     @Test
     void authenticate_sendMessageMessageToCustomerCare() throws MailException {
         //given
-        SelfCareUser selfCareUser = SelfCareUser.builder("id").email("test@email.com").build();
+        SelfCareUser selfCareUser = SelfCareUser.builder("id").email("test@example.com").build();
         TestingAuthenticationToken authenticationToken = new TestingAuthenticationToken(selfCareUser, null);
         TestSecurityContextHolder.setAuthentication(authenticationToken);
         MessageRequest request = new MessageRequest();
@@ -150,7 +150,7 @@ class NotificationServiceImplTest {
         MessageRequest request = new MessageRequest();
         request.setContent(CONTENT);
         request.setSubject(SUBJECT);
-        request.setSenderEmail("test@email.com");
+        request.setSenderEmail("test@example.com");
         //when
         notificationService.sendMessageToCustomerCare(request);
         //then
@@ -162,7 +162,7 @@ class NotificationServiceImplTest {
         Assertions.assertEquals(CONTENT, mailRequest.getContent());
         Assertions.assertEquals(FROM, mailRequest.getFrom());
         Assertions.assertEquals(TO, mailRequest.getTo());
-        Assertions.assertEquals("test@email.com", mailRequest.getReplyTo().get());
+        Assertions.assertEquals("test@example.com", mailRequest.getReplyTo().get());
         Mockito.verifyNoMoreInteractions(notificationConnectorMock);
     }
 

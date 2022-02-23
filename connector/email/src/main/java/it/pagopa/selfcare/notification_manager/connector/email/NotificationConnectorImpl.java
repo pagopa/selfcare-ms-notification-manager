@@ -14,13 +14,13 @@ import javax.mail.internet.MimeMessage;
 
 @Slf4j
 @Service
-public class CustomerCareNotificationService implements NotificationConnector {
+public class NotificationConnectorImpl implements NotificationConnector {
 
     private final JavaMailSender mailSender;
 
 
     @Autowired
-    public CustomerCareNotificationService(JavaMailSender mailSender) {
+    public NotificationConnectorImpl(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
 
@@ -38,7 +38,9 @@ public class CustomerCareNotificationService implements NotificationConnector {
             helper.setText(mailRequest.getContent());
             helper.setTo(mailRequest.getTo());
             helper.setSubject(mailRequest.getSubject());
-            helper.setReplyTo(mailRequest.getReplyTo());
+            if (mailRequest.getReplyTo().isPresent()) {
+                helper.setReplyTo(mailRequest.getReplyTo().get());
+            }
             mailSender.send(mimeMessage);
         } catch (Exception e) {
             throw new MailException(e);

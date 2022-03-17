@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class CreateMessageDtoTest {
+class CreateMessageToUserDtoTest {
     private Validator validator;
-    private static final CreateMessageDto CREATE_MESSAGE_DTO = TestUtils.mockInstance(new CreateMessageDto());
+    private static final CreateMessageToUserDto CREATE_MESSAGE_DTO = TestUtils.mockInstance(new CreateMessageToUserDto());
 
     @BeforeEach
     void setUp() {
@@ -34,10 +34,12 @@ class CreateMessageDtoTest {
         HashMap<String, Class<? extends Annotation>> toCheckMap = new HashMap<>();
         toCheckMap.put("content", NotBlank.class);
         toCheckMap.put("subject", NotBlank.class);
+        toCheckMap.put("receiverEmail", NotBlank.class);
 
-        CreateMessageDto messageDto = new CreateMessageDto();
+        CreateMessageToUserDto messageDto = new CreateMessageToUserDto();
         messageDto.setContent(null);
         messageDto.setSubject(null);
+        messageDto.setReceiverEmail(null);
         //when
         Set<ConstraintViolation<Object>> violations = validator.validate(messageDto);
         //then

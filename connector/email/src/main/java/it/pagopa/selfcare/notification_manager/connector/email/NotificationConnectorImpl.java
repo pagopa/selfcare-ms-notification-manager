@@ -14,13 +14,13 @@ import javax.mail.internet.MimeMessage;
 
 @Slf4j
 @Service
-public class CustomerCareNotificationService implements NotificationConnector {
+public class NotificationConnectorImpl implements NotificationConnector {
 
     private final JavaMailSender mailSender;
 
 
     @Autowired
-    public CustomerCareNotificationService(JavaMailSender mailSender) {
+    public NotificationConnectorImpl(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
 
@@ -31,14 +31,15 @@ public class CustomerCareNotificationService implements NotificationConnector {
         log.debug("sendMessage mailRequest = {}", mailRequest);
         Assert.notNull(mailRequest, "the MailRequest must not be null");
         MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper helper;
-        helper = new MimeMessageHelper(mimeMessage);
         try {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
             helper.setFrom(mailRequest.getFrom());
-            helper.setText(mailRequest.getContent());
+            helper.setText(mailRequest.getContent(), true);
             helper.setTo(mailRequest.getTo());
             helper.setSubject(mailRequest.getSubject());
-            helper.setReplyTo(mailRequest.getReplyTo());
+            if (mailRequest.getReplyTo().isPresent()) {
+                helper.setReplyTo(mailRequest.getReplyTo().get());
+            }
             mailSender.send(mimeMessage);
         } catch (Exception e) {
             throw new MailException(e);

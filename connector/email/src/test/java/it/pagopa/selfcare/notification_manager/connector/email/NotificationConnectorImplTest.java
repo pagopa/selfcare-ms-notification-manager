@@ -15,27 +15,31 @@ import org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.Optional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE,
         classes = {
                 MailSenderAutoConfiguration.class,
-                CustomerCareNotificationService.class
+                NotificationConnectorImpl.class
         })
 @TestPropertySource(value = "classpath:config/email-test.properties")
-class CustomerCareNotificationServiceTest {
+class NotificationConnectorImplTest {
     private static final String FROM = "noreply@pagopa.it";
     private static final String TO = "selfcare_ssistenza.pagopa.com";
     private static final String MESSAGE = "test message";
     private static final String SUBJECT = " test";
+    private static final String RECEIVER = "user@mail.com";
 
     @Autowired
-    private CustomerCareNotificationService notificationService;
+    private NotificationConnectorImpl notificationService;
 
     @RegisterExtension
     static GreenMailExtension greenMail = new GreenMailExtension(ServerSetupTest.SMTP)
             .withConfiguration(GreenMailConfiguration.aConfig().withUser("username", "password"))
-            .withPerMethodLifecycle(false);
+            .withPerMethodLifecycle(true);
+
 
     @Test
     void sendEmail_WithCorrectPayload() throws Exception {
@@ -45,7 +49,7 @@ class CustomerCareNotificationServiceTest {
         mail.setFrom(FROM);
         mail.setContent(MESSAGE);
         mail.setSubject(SUBJECT);
-        mail.setReplyTo("bgalgamu@nttdata.com");
+        mail.setReplyTo(Optional.of("test@example.com"));
         //when
         notificationService.sendMessage(mail);
         //then
@@ -54,7 +58,7 @@ class CustomerCareNotificationServiceTest {
         Assertions.assertEquals(1, receivedMessage.getAllRecipients().length);
         Assertions.assertEquals(TO, receivedMessage.getAllRecipients()[0].toString());
         Assertions.assertEquals(FROM, receivedMessage.getFrom()[0].toString());
-        Assertions.assertEquals("bgalgamu@nttdata.com", receivedMessage.getReplyTo()[0].toString());
+        Assertions.assertEquals("test@example.com", receivedMessage.getReplyTo()[0].toString());
 
     }
 
@@ -67,13 +71,34 @@ class CustomerCareNotificationServiceTest {
         mail.setFrom(null);
         mail.setContent(MESSAGE);
         mail.setSubject(SUBJECT);
-        mail.setReplyTo("bgalgamui@nttdata.com");
+        mail.setReplyTo(Optional.of("test@example.com"));
+
         //when
         Executable executable = () -> notificationService.sendMessage(mail);
         //then
         Assertions.assertThrows(MailException.class, executable);
 
 
+    }
+
+    @Test
+    void sendEmail_emptyReplyTo() throws MailException, MessagingException {
+        //given
+        MailRequest mail = new MailRequest();
+        mail.setTo(RECEIVER);
+        mail.setFrom(FROM);
+        mail.setContent(MESSAGE);
+        mail.setSubject(SUBJECT);
+        mail.setReplyTo(null);
+        //when
+        notificationService.sendMessage(mail);
+        //then
+        MimeMessage receivedMessage = greenMail.getReceivedMessages()[0];
+        Assertions.assertEquals(MESSAGE, GreenMailUtil.getBody(receivedMessage));
+        Assertions.assertEquals(1, receivedMessage.getAllRecipients().length);
+        Assertions.assertEquals(RECEIVER, receivedMessage.getAllRecipients()[0].toString());
+        Assertions.assertEquals(FROM, receivedMessage.getFrom()[0].toString());
+        Assertions.assertEquals(FROM, receivedMessage.getReplyTo()[0].toString());
     }
 
     @Test

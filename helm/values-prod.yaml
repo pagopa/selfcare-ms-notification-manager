@@ -1,0 +1,19 @@
+image:
+  repository: selcpacr.azurecr.io/selfcaremsnotificationmanager
+  pullPolicy: Always # TODO change me in IfNotPresent when each build will have a different tag
+  tag: 0.0.1-SNAPSHOT
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+configEnvSpecific:
+  JAVA_TOOL_OPTIONS: "-javaagent:/applicationinsights-agent.jar"
+  APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: "OFF"
+  MS_NOTIFICATION_MANAGER_LOG_LEVEL: "INFO"
+  CUSTOMER_CARE_MAIL: "noreply@pagopa.it"
+  CUSTOMER_CARE_MAIL_SUBJECT_PREFIX: ""
+  NOTIFICATION_TO_USER_SUBJECT_PREFIX: ""

@@ -4,7 +4,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import it.pagopa.selfcare.notification_manager.core.NotificationService;
-import it.pagopa.selfcare.notification_manager.web.model.CreateMessageDto;
+import it.pagopa.selfcare.notification_manager.web.model.CreateMessageToCustomerCareDto;
+import it.pagopa.selfcare.notification_manager.web.model.CreateMessageToUserDto;
 import it.pagopa.selfcare.notification_manager.web.model.mapper.MessageMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,26 @@ public class NotificationController {
     void sendNotificationToCustomerCare(@ApiParam("${swagger.notification_manager.notifications.model.messageRequest}")
                                         @RequestBody
                                         @Valid
-                                                CreateMessageDto createMessageDto) {
+                                                CreateMessageToCustomerCareDto createMessageToCustomerCareDto) {
         log.trace("sendNotificationToCustomerCare start");
-        log.debug("createMessageDto = {}", createMessageDto);
-        notificationService.sendMessage(MessageMapper.toMessageRequest(createMessageDto));
+        log.debug("createMessageDto = {}", createMessageToCustomerCareDto);
+        notificationService.sendMessageToCustomerCare(MessageMapper.toMessageRequest(createMessageToCustomerCareDto));
         log.trace("sendNotificationToCustomerCare end");
+
+    }
+
+
+    @PostMapping(value = "/user")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiOperation(value = "", notes = "${swagger.notification_manager.notifications.api.sendNotificationToUser}")
+    void sendNotificationToUser(@ApiParam("${swagger.notification_manager.notifications.model.messageRequest}")
+                                @RequestBody
+                                @Valid
+                                        CreateMessageToUserDto createMessageToUserDto) {
+        log.trace("sendNotificationToUser start");
+        log.debug("sendNotificationToUser createMessageToUserDto = {}", createMessageToUserDto);
+        notificationService.sendMessageToUser(MessageMapper.toMessageRequest(createMessageToUserDto));
+        log.trace("sendNotificationToUser end");
 
     }
 

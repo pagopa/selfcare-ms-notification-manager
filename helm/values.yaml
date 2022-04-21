@@ -51,7 +51,7 @@ ingress:
   hosts:
     - host: ""
       paths:
-        - path: /ms-notification-manager/v1/(.*)
+        - path: /ms-notification-manager/(.*)
           pathType: ImplementationSpecific
   tls: []
   #  - secretName: chart-example-tls

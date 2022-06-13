@@ -1,12 +1,14 @@
 package it.pagopa.selfcare.notification_manager.web.handler;
 
-import it.pagopa.selfcare.commons.web.model.ErrorResource;
+import it.pagopa.selfcare.commons.web.model.Problem;
+import it.pagopa.selfcare.commons.web.model.mapper.ProblemMapper;
 import it.pagopa.selfcare.notification_manager.core.exception.MessageRequestException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 /**
  * Exception handler for {@link it.pagopa.selfcare.notification_manager.web.controller.NotificationController}
@@ -16,10 +18,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class NotificationExceptionsHandler {
 
     @ExceptionHandler({MessageRequestException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    ErrorResource handleFileValidationException(MessageRequestException e) {
-        log.warn(e.getMessage());
-        return new ErrorResource(e.getMessage());
+    ResponseEntity<Problem> handleFileValidationException(MessageRequestException e) {
+        log.warn(e.toString());
+        return ProblemMapper.toResponseEntity(new Problem(BAD_REQUEST, e.getMessage()));
     }
 
 }

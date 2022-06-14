@@ -6,7 +6,6 @@ import com.icegreen.greenmail.util.GreenMailUtil;
 import com.icegreen.greenmail.util.ServerSetupTest;
 import it.pagopa.selfcare.notification_manager.api.exception.MailException;
 import it.pagopa.selfcare.notification_manager.api.model.MailRequest;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.function.Executable;
@@ -18,6 +17,8 @@ import org.springframework.test.context.TestPropertySource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE,
         classes = {
@@ -54,12 +55,13 @@ class NotificationConnectorImplTest {
         notificationService.sendMessage(mail);
         //then
         MimeMessage receivedMessage = greenMail.getReceivedMessages()[0];
-        Assertions.assertEquals(MESSAGE, GreenMailUtil.getBody(receivedMessage));
-        Assertions.assertEquals(1, receivedMessage.getAllRecipients().length);
-        Assertions.assertEquals(TO, receivedMessage.getAllRecipients()[0].toString());
-        Assertions.assertEquals(FROM, receivedMessage.getFrom()[0].toString());
-        Assertions.assertEquals("test@example.com", receivedMessage.getReplyTo()[0].toString());
-
+        final String body = GreenMailUtil.getBody(receivedMessage);
+        assertNotNull(body);
+        assertTrue(body.contains(MESSAGE));
+        assertEquals(1, receivedMessage.getAllRecipients().length);
+        assertEquals(TO, receivedMessage.getAllRecipients()[0].toString());
+        assertEquals(FROM, receivedMessage.getFrom()[0].toString());
+        assertEquals("test@example.com", receivedMessage.getReplyTo()[0].toString());
     }
 
 
@@ -76,7 +78,7 @@ class NotificationConnectorImplTest {
         //when
         Executable executable = () -> notificationService.sendMessage(mail);
         //then
-        Assertions.assertThrows(MailException.class, executable);
+        assertThrows(MailException.class, executable);
 
 
     }
@@ -94,11 +96,13 @@ class NotificationConnectorImplTest {
         notificationService.sendMessage(mail);
         //then
         MimeMessage receivedMessage = greenMail.getReceivedMessages()[0];
-        Assertions.assertEquals(MESSAGE, GreenMailUtil.getBody(receivedMessage));
-        Assertions.assertEquals(1, receivedMessage.getAllRecipients().length);
-        Assertions.assertEquals(RECEIVER, receivedMessage.getAllRecipients()[0].toString());
-        Assertions.assertEquals(FROM, receivedMessage.getFrom()[0].toString());
-        Assertions.assertEquals(FROM, receivedMessage.getReplyTo()[0].toString());
+        final String body = GreenMailUtil.getBody(receivedMessage);
+        assertNotNull(body);
+        assertTrue(body.contains(MESSAGE));
+        assertEquals(1, receivedMessage.getAllRecipients().length);
+        assertEquals(RECEIVER, receivedMessage.getAllRecipients()[0].toString());
+        assertEquals(FROM, receivedMessage.getFrom()[0].toString());
+        assertEquals(FROM, receivedMessage.getReplyTo()[0].toString());
     }
 
     @Test
@@ -108,7 +112,7 @@ class NotificationConnectorImplTest {
         //when
         Executable executable = () -> notificationService.sendMessage(mail);
         //then
-        IllegalArgumentException assertThrows = Assertions.assertThrows(IllegalArgumentException.class, executable);
-        Assertions.assertEquals("the MailRequest must not be null", assertThrows.getMessage());
+        IllegalArgumentException assertThrows = assertThrows(IllegalArgumentException.class, executable);
+        assertEquals("the MailRequest must not be null", assertThrows.getMessage());
     }
 }

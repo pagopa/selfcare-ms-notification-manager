@@ -18,6 +18,7 @@ configEnvSpecific:
   JAVA_TOOL_OPTIONS: "-javaagent:/applicationinsights-agent.jar"
   APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: "OFF"
   MS_NOTIFICATION_MANAGER_LOG_LEVEL: "INFO"
-  CUSTOMER_CARE_MAIL: "noreply@pagopa.it"
+  CUSTOMER_CARE_MAIL: "selfcare@assistenza.pagopa.it"
+  NO_REPLY_MAIL: "noreply@pagopa.it"
   CUSTOMER_CARE_MAIL_SUBJECT_PREFIX: ""
   NOTIFICATION_TO_USER_SUBJECT_PREFIX: ""

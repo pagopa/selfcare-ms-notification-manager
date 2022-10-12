@@ -33,7 +33,8 @@ public class NotificationServiceImpl implements NotificationService {
                             @Value("${notification_manager.mail.customer-care}") String customerCareMail,
                             @Value("${notification_manager.mail.no-reply}") String noReplyMailAddress,
                             @Value("${notification_manager.mail.customer-care-subject-prefix}") String customerCareMailSubjectPrefix,
-                            @Value("${notification_manager.mail.user-subject-prefix}") String userMailSubjectPrefix) {
+                            @Value("${notification_manager.mail.user-subject-prefix}") String userMailSubjectPrefix
+                            ) {
         this.notificationService = notificationService;
         this.customerCareMail = customerCareMail;
         this.noReplyMailAddress = noReplyMailAddress;
@@ -55,7 +56,7 @@ public class NotificationServiceImpl implements NotificationService {
         MailRequest mail = new MailRequest();
         mail.setFrom(noReplyMailAddress);
         mail.setTo(customerCareMail);
-        mail.setSubject(customerCareMailSubjectPrefix + messageRequest.getSubject());
+        mail.setSubject(String.format("%s%s %s", customerCareMailSubjectPrefix, messageRequest.getSubject(), principal.getFiscalCode()));
         mail.setContent(messageRequest.getContent());
         if (principal.getEmail() == null) {
             if (messageRequest.getSenderEmail() != null) {

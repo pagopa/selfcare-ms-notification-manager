@@ -46,6 +46,7 @@ class NotificationServiceImplTest {
 
     @MockBean
     private NotificationConnector notificationConnectorMock;
+    
 
     @Captor
     private ArgumentCaptor<MailRequest> mailRequestCaptor;
@@ -91,7 +92,7 @@ class NotificationServiceImplTest {
     @Test
     void authenticate_sendMessageMessageToCustomerCare() throws MailException {
         //given
-        SelfCareUser selfCareUser = SelfCareUser.builder("id").email("test@example.com").build();
+        SelfCareUser selfCareUser = SelfCareUser.builder("id").email("test@example.com").fiscalCode("fiscalCode").build();
         TestingAuthenticationToken authenticationToken = new TestingAuthenticationToken(selfCareUser, null);
         TestSecurityContextHolder.setAuthentication(authenticationToken);
         MessageRequest request = new MessageRequest();
@@ -104,7 +105,7 @@ class NotificationServiceImplTest {
         Mockito.verify(notificationConnectorMock, Mockito.times(1))
                 .sendMessage(mailRequestCaptor.capture());
         MailRequest mailRequest = mailRequestCaptor.getValue();
-        Assertions.assertEquals("TEST - " + SUBJECT, mailRequest.getSubject());
+        Assertions.assertEquals("TEST - " + SUBJECT + " " + selfCareUser.getFiscalCode(), mailRequest.getSubject());
         Assertions.assertEquals(CONTENT, mailRequest.getContent());
         Assertions.assertEquals(FROM, mailRequest.getFrom());
         Assertions.assertEquals(TO, mailRequest.getTo());
@@ -144,7 +145,7 @@ class NotificationServiceImplTest {
     @Test
     void sendMessageToCustomerCare_nullPrincipalEmail() throws MailException {
         //given
-        SelfCareUser selfCareUser = SelfCareUser.builder("id").email(null).build();
+        SelfCareUser selfCareUser = SelfCareUser.builder("id").email(null).fiscalCode("fiscalCode").build();
         TestingAuthenticationToken authenticationToken = new TestingAuthenticationToken(selfCareUser, null);
         TestSecurityContextHolder.setAuthentication(authenticationToken);
         MessageRequest request = new MessageRequest();
@@ -158,7 +159,7 @@ class NotificationServiceImplTest {
         Mockito.verify(notificationConnectorMock, Mockito.times(1))
                 .sendMessage(mailRequestCaptor.capture());
         MailRequest mailRequest = mailRequestCaptor.getValue();
-        Assertions.assertEquals("TEST - " + SUBJECT, mailRequest.getSubject());
+        Assertions.assertEquals("TEST - " + SUBJECT+ " "+ selfCareUser.getFiscalCode(), mailRequest.getSubject());
         Assertions.assertEquals(CONTENT, mailRequest.getContent());
         Assertions.assertEquals(FROM, mailRequest.getFrom());
         Assertions.assertEquals(TO, mailRequest.getTo());

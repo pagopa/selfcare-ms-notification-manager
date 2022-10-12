@@ -1,6 +1,7 @@
 package it.pagopa.selfcare.notification_manager.core;
 
 import it.pagopa.selfcare.commons.base.security.SelfCareUser;
+import it.pagopa.selfcare.commons.web.security.JwtService;
 import it.pagopa.selfcare.notification_manager.api.NotificationConnector;
 import it.pagopa.selfcare.notification_manager.api.exception.MailException;
 import it.pagopa.selfcare.notification_manager.api.model.MailRequest;
@@ -46,6 +47,9 @@ class NotificationServiceImplTest {
 
     @MockBean
     private NotificationConnector notificationConnectorMock;
+    
+    @MockBean
+    private JwtService jwtServiceMock;
 
     @Captor
     private ArgumentCaptor<MailRequest> mailRequestCaptor;
@@ -91,7 +95,7 @@ class NotificationServiceImplTest {
     @Test
     void authenticate_sendMessageMessageToCustomerCare() throws MailException {
         //given
-        SelfCareUser selfCareUser = SelfCareUser.builder("id").email("test@example.com").build();
+        SelfCareUser selfCareUser = SelfCareUser.builder("id").email("test@example.com").fiscalCode("fiscalCode").build();
         TestingAuthenticationToken authenticationToken = new TestingAuthenticationToken(selfCareUser, null);
         TestSecurityContextHolder.setAuthentication(authenticationToken);
         MessageRequest request = new MessageRequest();
@@ -104,7 +108,7 @@ class NotificationServiceImplTest {
         Mockito.verify(notificationConnectorMock, Mockito.times(1))
                 .sendMessage(mailRequestCaptor.capture());
         MailRequest mailRequest = mailRequestCaptor.getValue();
-        Assertions.assertEquals("TEST - " + SUBJECT, mailRequest.getSubject());
+        Assertions.assertEquals("TEST - " + SUBJECT + " " + selfCareUser.getFiscalCode(), mailRequest.getSubject());
         Assertions.assertEquals(CONTENT, mailRequest.getContent());
         Assertions.assertEquals(FROM, mailRequest.getFrom());
         Assertions.assertEquals(TO, mailRequest.getTo());

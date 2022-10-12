@@ -1,5 +1,6 @@
 package it.pagopa.selfcare.notification_manager.connector.email;
 
+import it.pagopa.selfcare.commons.base.logging.LogUtils;
 import it.pagopa.selfcare.notification_manager.api.NotificationConnector;
 import it.pagopa.selfcare.notification_manager.api.exception.MailException;
 import it.pagopa.selfcare.notification_manager.api.model.MailRequest;
@@ -28,7 +29,7 @@ public class NotificationConnectorImpl implements NotificationConnector {
     @Override
     public void sendMessage(MailRequest mailRequest) throws MailException {
         log.trace("sendMessage start");
-        log.debug("sendMessage mailRequest = {}", mailRequest);
+        log.debug(LogUtils.CONFIDENTIAL_MARKER, "sendMessage mailRequest = {}", mailRequest);
         Assert.notNull(mailRequest, "the MailRequest must not be null");
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         try {

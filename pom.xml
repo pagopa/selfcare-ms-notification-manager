@@ -14,7 +14,7 @@
     <name>selc-notification-manager</name>
     <description>Microservice to manage Self Care Notification</description>
     <properties>
-        <selc-commons.version>2.4.3</selc-commons.version>
+        <selc-commons.version>2.4.4</selc-commons.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -92,6 +92,13 @@
         <module>app</module>
         <module>connector-api</module>
         <module>connector</module>
-
     </modules>
+    <repositories>
+        <repository>
+            <id>selfcare-platform</id>
+            <url>
+                https://pkgs.dev.azure.com/pagopaspa/selfcare-platform-app-projects/_packaging/selfcare-platform/maven/v1
+            </url>
+        </repository>
+    </repositories>
 </project>

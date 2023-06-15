@@ -27,7 +27,7 @@ import org.springframework.security.test.context.TestSecurityContextHolder;
                 NotificationCoreConfig.class
         },
         properties = {
-                "CUSTOMER_CARE_MAIL=selfcare@assistenza.pagopa.it",
+                "CUSTOMER_CARE_MAIL=areariservata@assistenza.pagopa.it",
                 "NO_REPLY_MAIL=noreply@pagopa.it",
                 "ENV_TARGET=TEST"
         }
@@ -37,7 +37,7 @@ class NotificationServiceImplTest {
     private static final String CONTENT = "test message";
     private static final String SUBJECT = "test subject";
     private static final String FROM = "noreply@pagopa.it";
-    private static final String TO = "selfcare@assistenza.pagopa.it";
+    private static final String TO = "areariservata@assistenza.pagopa.it";
     private static final String RECEIVER = "user@email.it";
 
 

@@ -14,7 +14,7 @@
     <name>selc-notification-manager</name>
     <description>Microservice to manage Self Care Notification</description>
     <properties>
-        <selc-commons.version>2.2.1</selc-commons.version>
+        <selc-commons.version>2.4.6</selc-commons.version>
     </properties>
     <dependencyManagement>
         <dependencies>

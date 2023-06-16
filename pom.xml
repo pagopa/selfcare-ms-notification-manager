@@ -86,6 +86,16 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>selfcare-platform</id>
+            <url>
+                https://pkgs.dev.azure.com/pagopaspa/selfcare-platform-app-projects/_packaging/selfcare-platform/maven/v1
+            </url>
+        </repository>
+    </repositories>
+
     <modules>
         <module>core</module>
         <module>web</module>

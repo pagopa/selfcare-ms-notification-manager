@@ -31,7 +31,3 @@ logging:
   pattern:
     additional-info: ",%X{X-Client-Ip:-}]"
 
-notification:
-  manager:
-    connector:
-      type: ${NOTIFICATION_MANAGER_CONNECTOR_TYPE:default}

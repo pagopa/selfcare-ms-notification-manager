@@ -33,6 +33,10 @@
 |spring.mail.properties.mail.smtp.auth|MAIL_SERVER_SMTP_AUTH|<a name= "default property"></a>[default_property](https://github.com/pagopa/selfcare-ms-notification-manager/blob/release-dev/connector/email/src/main/resources/config/email.properties)| yes|
 |spring.mail.properties.mail.smtp.starttls.enable|MAIL_SERVER_SMTP_TLS_ENABLE|<a name= "default property"></a>[default_property](https://github.com/pagopa/selfcare-ms-notification-manager/blob/release-dev/connector/email/src/main/resources/config/email.properties)| yes|
 |spring.mail.protocol|MAIL_SERVER_PROTOCOL|<a name= "default property"></a>[default_property](https://github.com/pagopa/selfcare-ms-notification-manager/blob/release-dev/connector/email/src/main/resources/config/email.properties)| yes|
+|spring.mail.connector.type|MAIL_CONNECTOR_TYPE|<a name= "default property"></a>[default_property](https://github.com/pagopa/selfcare-ms-notification-manager/blob/release-dev/connector/email/src/main/resources/config/email.properties)| yes|
+|aws.ses.secret-id|AWS_SES_ACCESS_KEY_ID|<a name= "default property"></a>[default_property](https://github.com/pagopa/selfcare-ms-notification-manager/blob/release-dev/connector/email/src/main/resources/config/email.properties)| yes|
+|aws.ses.secret-key|AWS_SES_SECRET_ACCESS_KEY|<a name= "default property"></a>[default_property](https://github.com/pagopa/selfcare-ms-notification-manager/blob/release-dev/connector/email/src/main/resources/config/email.properties)| yes|
+|aws.ses.region|AWS_SES_REGION|<a name= "default property"></a>[default_property](https://github.com/pagopa/selfcare-ms-notification-manager/blob/release-dev/connector/email/src/main/resources/config/email.properties)| yes|
 
 | **Email Core Configurations** |
 |:-----------------------------:|

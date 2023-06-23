@@ -6,6 +6,7 @@ import it.pagopa.selfcare.notification_manager.api.exception.MailException;
 import it.pagopa.selfcare.notification_manager.api.model.MailRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,10 @@ import javax.mail.internet.MimeMessage;
 
 @Slf4j
 @Service
+@ConditionalOnProperty(
+        value="notification.manager.connector.type",
+        havingValue = "default",
+        matchIfMissing = true)
 public class NotificationConnectorImpl implements NotificationConnector {
 
     private final JavaMailSender mailSender;

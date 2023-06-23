@@ -30,3 +30,8 @@ logging:
     it.pagopa.selfcare: ${MS_NOTIFICATION_MANAGER_LOG_LEVEL:DEBUG}
   pattern:
     additional-info: ",%X{X-Client-Ip:-}]"
+
+notification:
+  manager:
+    connector:
+      type: ${NOTIFICATION_MANAGER_CONNECTOR_TYPE:default}

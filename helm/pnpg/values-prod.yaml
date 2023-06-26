@@ -1,5 +1,5 @@
 image:
-  repository: selcucommonacr.azurecr.io/selfcaremsnotificationmanager
+  repository: selcpcommonacr.azurecr.io/selfcaremsnotificationmanager
   pullPolicy: Always # TODO change me in IfNotPresent when each build will have a different tag
   tag: 1.0-SNAPSHOT
 

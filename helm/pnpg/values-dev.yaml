@@ -1,5 +1,5 @@
 image:
-  repository: selcucommonacr.azurecr.io/selfcaremsnotificationmanager
+  repository: selcscommonacr.azurecr.io/selfcaremsnotificationmanager
 
 ingress:
   annotations:

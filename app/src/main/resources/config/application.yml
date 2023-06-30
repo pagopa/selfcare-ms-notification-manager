@@ -16,6 +16,9 @@ spring:
     baggage:
       remote-fields: X-Client-Ip
       correlation-fields: X-Client-Ip
+  mail:
+    connector:
+      type: ${MAIL_CONNECTOR_TYPE:default}
 
 info:
   build:

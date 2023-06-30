@@ -17,7 +17,7 @@ import javax.mail.internet.MimeMessage;
 @Slf4j
 @Service
 @ConditionalOnProperty(
-        value="notification.manager.connector.type",
+        value="spring.mail.connector.type",
         havingValue = "default",
         matchIfMissing = true)
 public class NotificationConnectorImpl implements NotificationConnector {

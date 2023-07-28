@@ -42,6 +42,7 @@ public class NotificationServiceImpl implements NotificationService {
         this.userMailSubjectPrefix = userMailSubjectPrefix;
     }
 
+    @Deprecated
     @SneakyThrows
     @Override
     public void sendMessageToCustomerCare(MessageRequest messageRequest) {

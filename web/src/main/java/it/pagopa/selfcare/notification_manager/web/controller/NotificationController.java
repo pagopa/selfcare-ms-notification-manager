@@ -28,6 +28,10 @@ public class NotificationController {
         this.notificationService = notificationService;
     }
 
+    /**
+     * @deprecated
+     */
+    @Deprecated(since = "1.0-SNAPSHOT")
     @PostMapping(value = "/customer-care")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "", notes = "${swagger.notification_manager.notifications.api.sendNotificationToCustomerCare}")

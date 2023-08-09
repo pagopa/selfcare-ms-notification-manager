@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
@@ -42,6 +43,7 @@ public class NotificationServiceImpl implements NotificationService {
         this.userMailSubjectPrefix = userMailSubjectPrefix;
     }
 
+    @Deprecated
     @SneakyThrows
     @Override
     public void sendMessageToCustomerCare(MessageRequest messageRequest) {
@@ -58,16 +60,15 @@ public class NotificationServiceImpl implements NotificationService {
         mail.setTo(customerCareMail);
         mail.setSubject(String.format("%s%s %s", customerCareMailSubjectPrefix, messageRequest.getSubject(), principal.getFiscalCode()));
         mail.setContent(messageRequest.getContent());
-        if (principal.getEmail() == null) {
-            if (messageRequest.getSenderEmail() != null) {
-                mail.setReplyTo(Optional.of(messageRequest.getSenderEmail()));
+        if (messageRequest.getSenderEmail() != null) {
+            mail.setReplyTo(Optional.of(messageRequest.getSenderEmail()));
+        } else {
+            if(StringUtils.hasText(principal.getEmail())) {
+                mail.setReplyTo(Optional.of(principal.getEmail()));
             } else {
                 throw new MessageRequestException("Missing replyTo address");
             }
-        } else {
-            mail.setReplyTo(Optional.of(principal.getEmail()));
         }
-
         notificationService.sendMessage(mail);
         log.trace("sendMessageToCustomerCare end");
 

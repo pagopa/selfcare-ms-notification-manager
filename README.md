@@ -1,6 +1,34 @@
-# selfcare-ms-notification-manager
+# Microservice ms-notification-manager
 
-## Configuration Properties
+Microservice responsible for sending notification to user. Mail can send using SMTP server, as default, or AWS SES service. For use AWS SES you must set MAIL_CONNECTOR_TYPE as 'aws', it will use aws credential described below to authenticate request.
+
+## Required Configuration Properties
+
+Before running you must set these properties as environment variables. AWS_SES_ACCESS_KEY_ID and AWS_SES_SECRET_ACCESS_KEY must be valued is MAIL_CONNECTOR_TYPE is 'aws'.
+
+
+| **Property**                                  | **Environment Variable**                 | **Default** | **Required** |
+|-----------------------------------------------|------------------------------------------|-------------|:------------:|
+| jwt.signingKey<br/>                           | JWT_TOKEN_PUBLIC_KEY                     |             |     yes      |
+|spring.mail.host<br/>                          | MAIL_SERVER_HOST                         |             |     yes      |
+|spring.mail.port                               | MAIL_SERVER_PORT                         |             |     yes      |
+|spring.mail.username                           | MAIL_SERVER_USERNAME                     |             |     yes      |
+|spring.mail.password                           | MAIL_SERVER_PASSWORD                     |             |     yes      |
+|spring.mail.properties.mail.smtp.auth          | MAIL_SERVER_SMTP_AUTH                    |             |     yes      |
+|spring.mail.properties.mail.smtp.*.enable      | MAIL_SERVER_SMTP_TLS_ENABLE              |             |     yes      |
+|spring.mail.protocol                           | MAIL_SERVER_PROTOCOL                     |             |     yes      |
+
+## Running the application
+
+You can run your application using:
+```shell script
+./mvnw install
+./mvnw spring-boot:run -pl app
+```
+
+Application will respond to the url http://localhost:8080
+
+## All Configuration Properties
 
 | **Application properties** |
 |:--------------------------:|

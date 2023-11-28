@@ -14,6 +14,14 @@ ingress:
         - path: /ms-notification-manager/(.*)
           pathType: ImplementationSpecific
 
+resources:
+  requests:
+    cpu: 200m
+    memory: 300M
+  limits:
+    cpu: 500m
+    memory: 600M
+
 autoscaling:
   enabled: false
   minReplicas: 1

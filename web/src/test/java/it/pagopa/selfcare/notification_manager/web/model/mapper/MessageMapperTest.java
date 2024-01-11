@@ -2,8 +2,10 @@ package it.pagopa.selfcare.notification_manager.web.model.mapper;
 
 import it.pagopa.selfcare.commons.utils.TestUtils;
 import it.pagopa.selfcare.notification_manager.core.model.MessageRequest;
+import it.pagopa.selfcare.notification_manager.core.model.MultiReceiverMessageRequest;
 import it.pagopa.selfcare.notification_manager.web.model.CreateMessageToCustomerCareDto;
 import it.pagopa.selfcare.notification_manager.web.model.CreateMessageToUserDto;
+import it.pagopa.selfcare.notification_manager.web.model.CreateMessageToUsersDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -52,5 +54,17 @@ class MessageMapperTest {
         MessageRequest messageRequest = MessageMapper.toMessageRequest(messageToUserDto);
         //then
         Assertions.assertNull(messageRequest);
+    }
+
+    @Test
+    void toMessageRequestMultipleReceiver(){
+        CreateMessageToUsersDto messageDto = TestUtils.mockInstance(new CreateMessageToUsersDto());
+        //when
+        MultiReceiverMessageRequest messageRequest = MessageMapper.toMessageRequest(messageDto);
+        //then
+        Assertions.assertEquals(messageDto.getContent(), messageRequest.getContent());
+        Assertions.assertEquals(messageDto.getSubject(), messageRequest.getSubject());
+        Assertions.assertEquals(messageDto.getReceiverEmails(), messageRequest.getReceiverEmail());
+        TestUtils.reflectionEqualsByName(messageRequest, messageDto);
     }
 }

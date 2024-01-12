@@ -134,6 +134,61 @@
           "bearerAuth" : [ "global" ]
         } ]
       }
+    },
+    "/notifications/v1/users" : {
+      "post" : {
+        "tags" : [ "notification-manager" ],
+        "summary" : "sendNotificationToUsers",
+        "description" : "Service that sends the notification to multiple receiver",
+        "operationId" : "sendNotificationToUsersUsingPOST",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CreateMessageToUsersDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized",
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ "global" ]
+        } ]
+      }
     }
   },
   "components" : {
@@ -169,6 +224,28 @@
           "receiverEmail" : {
             "type" : "string",
             "description" : "Notification message receiver email"
+          },
+          "subject" : {
+            "type" : "string",
+            "description" : "Notification message subject"
+          }
+        }
+      },
+      "CreateMessageToUsersDto" : {
+        "title" : "CreateMessageToUsersDto",
+        "required" : [ "content", "receiverEmails", "subject" ],
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "string",
+            "description" : "Notification message content"
+          },
+          "receiverEmails" : {
+            "type" : "array",
+            "description" : "Notification message receiver email",
+            "items" : {
+              "type" : "string"
+            }
           },
           "subject" : {
             "type" : "string",

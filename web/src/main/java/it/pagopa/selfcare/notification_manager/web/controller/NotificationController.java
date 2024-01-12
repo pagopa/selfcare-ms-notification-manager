@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiParam;
 import it.pagopa.selfcare.notification_manager.core.NotificationService;
 import it.pagopa.selfcare.notification_manager.web.model.CreateMessageToCustomerCareDto;
 import it.pagopa.selfcare.notification_manager.web.model.CreateMessageToUserDto;
+import it.pagopa.selfcare.notification_manager.web.model.CreateMessageToUsersDto;
 import it.pagopa.selfcare.notification_manager.web.model.mapper.MessageMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,16 @@ public class NotificationController {
         log.debug("sendNotificationToUser createMessageToUserDto = {}", createMessageToUserDto);
         notificationService.sendMessageToUser(MessageMapper.toMessageRequest(createMessageToUserDto));
         log.trace("sendNotificationToUser end");
+    }
 
+    @PostMapping(value = "/users")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiOperation(value = "", notes = "${swagger.notification_manager.notifications.api.sendNotificationToUsers}")
+    void sendNotificationToUsers(@RequestBody @Valid CreateMessageToUsersDto createMessageToUsersDto) {
+        log.trace("sendNotificationToUser start");
+        log.debug("sendNotificationToUser createMessageToUserDto = {}", createMessageToUsersDto);
+        notificationService.sendMessageToUsers(MessageMapper.toMessageRequest(createMessageToUsersDto));
+        log.trace("sendNotificationToUser end");
     }
 
 }

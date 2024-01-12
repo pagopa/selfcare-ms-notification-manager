@@ -5,6 +5,7 @@ import it.pagopa.selfcare.notification_manager.api.NotificationConnector;
 import it.pagopa.selfcare.notification_manager.api.model.MailRequest;
 import it.pagopa.selfcare.notification_manager.core.exception.MessageRequestException;
 import it.pagopa.selfcare.notification_manager.core.model.MessageRequest;
+import it.pagopa.selfcare.notification_manager.core.model.MultiReceiverMessageRequest;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class NotificationServiceImpl implements NotificationService {
     public void sendMessageToCustomerCare(MessageRequest messageRequest) {
         log.trace("sendMessageToCustomerCare start");
         log.debug("sendMessageToCustomerCare messageRequest = {}", messageRequest);
-        Assert.notNull(messageRequest, "Message request must not be null");
+        Assert.notNull(messageRequest, "request must not be null");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Assert.state(authentication != null, "Authentication is required");
         Assert.state(authentication.getPrincipal() instanceof SelfCareUser, "Not SelfCareUSer principal");
@@ -81,16 +82,36 @@ public class NotificationServiceImpl implements NotificationService {
         log.debug("sendMessageToUser messageRequest = {}", messageRequest);
         Assert.notNull(messageRequest, "Message request must not be null");
 
-        MailRequest mail = new MailRequest();
-        mail.setFrom(noReplyMailAddress);
-        mail.setTo(messageRequest.getReceiverEmail());
-        mail.setSubject(userMailSubjectPrefix + messageRequest.getSubject());
-        mail.setContent(messageRequest.getContent());
-        mail.setReplyTo(Optional.empty());
+        MailRequest mail = constructMailRequest(messageRequest.getReceiverEmail(), userMailSubjectPrefix + messageRequest.getSubject(), messageRequest.getContent());
         notificationService.sendMessage(mail);
         log.trace("sendMessageToUser end");
-
     }
 
+    @Override
+    public void sendMessageToUsers(MultiReceiverMessageRequest messageRequest) {
+        log.trace("sendMessageToUsers start");
+        log.debug("sendMessageToUsers messageRequest = {}", messageRequest);
+        Assert.notNull(messageRequest, "Multi receiver Message request must not be null");
 
+        messageRequest.getReceiverEmail().stream()
+                .map(s -> constructMailRequest(s, messageRequest.getSubject(), messageRequest.getContent()))
+                .forEach(this::sendMessage);
+
+        log.trace("sendMessageToUser end");
+    }
+
+    @SneakyThrows
+    private void sendMessage(MailRequest mailRequest) {
+        notificationService.sendMessage(mailRequest);
+    }
+
+    private MailRequest constructMailRequest(String to, String subject, String content) {
+        MailRequest mail = new MailRequest();
+        mail.setFrom(noReplyMailAddress);
+        mail.setTo(to);
+        mail.setSubject(subject);
+        mail.setContent(content);
+        mail.setReplyTo(Optional.empty());
+        return mail;
+    }
 }

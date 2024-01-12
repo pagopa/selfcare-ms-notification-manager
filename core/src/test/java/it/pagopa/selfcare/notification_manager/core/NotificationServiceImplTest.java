@@ -7,6 +7,7 @@ import it.pagopa.selfcare.notification_manager.api.model.MailRequest;
 import it.pagopa.selfcare.notification_manager.core.config.NotificationCoreConfig;
 import it.pagopa.selfcare.notification_manager.core.exception.MessageRequestException;
 import it.pagopa.selfcare.notification_manager.core.model.MessageRequest;
+import it.pagopa.selfcare.notification_manager.core.model.MultiReceiverMessageRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.test.context.TestSecurityContextHolder;
+
+import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE,
         classes = {
@@ -121,7 +124,7 @@ class NotificationServiceImplTest {
         Executable executable = () -> notificationService.sendMessageToCustomerCare(request);
         //then
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, executable);
-        Assertions.assertEquals("Message request must not be null", exception.getMessage());
+        Assertions.assertEquals("request must not be null", exception.getMessage());
         Mockito.verifyNoInteractions(notificationConnectorMock);
     }
 
@@ -182,6 +185,28 @@ class NotificationServiceImplTest {
         MailRequest mailRequest = mailRequestCaptor.getValue();
 
         Assertions.assertEquals("TEST - " + SUBJECT, mailRequest.getSubject());
+        Assertions.assertEquals(CONTENT, mailRequest.getContent());
+        Assertions.assertEquals(FROM, mailRequest.getFrom());
+        Assertions.assertEquals(RECEIVER, mailRequest.getTo());
+        Mockito.verifyNoMoreInteractions(notificationConnectorMock);
+
+    }
+
+    @Test
+    void sendMessageToUsers() throws MailException {
+        //given
+        MultiReceiverMessageRequest request = new MultiReceiverMessageRequest();
+        request.setReceiverEmail(List.of(RECEIVER));
+        request.setContent(CONTENT);
+        request.setSubject(SUBJECT);
+        //when
+        notificationService.sendMessageToUsers(request);
+        //then
+        Mockito.verify(notificationConnectorMock, Mockito.times(1))
+                .sendMessage(mailRequestCaptor.capture());
+        MailRequest mailRequest = mailRequestCaptor.getValue();
+
+        Assertions.assertEquals(SUBJECT, mailRequest.getSubject());
         Assertions.assertEquals(CONTENT, mailRequest.getContent());
         Assertions.assertEquals(FROM, mailRequest.getFrom());
         Assertions.assertEquals(RECEIVER, mailRequest.getTo());

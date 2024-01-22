@@ -5,9 +5,11 @@ import it.pagopa.selfcare.commons.base.security.SelfCareUser;
 import it.pagopa.selfcare.notification_manager.core.NotificationService;
 import it.pagopa.selfcare.notification_manager.core.exception.MessageRequestException;
 import it.pagopa.selfcare.notification_manager.core.model.MessageRequest;
+import it.pagopa.selfcare.notification_manager.core.model.MultiReceiverMessageRequest;
 import it.pagopa.selfcare.notification_manager.web.handler.NotificationExceptionsHandler;
 import it.pagopa.selfcare.notification_manager.web.model.CreateMessageToCustomerCareDto;
 import it.pagopa.selfcare.notification_manager.web.model.CreateMessageToUserDto;
+import it.pagopa.selfcare.notification_manager.web.model.CreateMessageToUsersDto;
 import it.pagopa.selfcare.notification_manager.web.model.mapper.MessageMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -26,6 +28,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.util.List;
 
 @WebMvcTest(value = {NotificationController.class}, excludeAutoConfiguration = SecurityAutoConfiguration.class)
 @ContextConfiguration(classes = {
@@ -50,6 +54,8 @@ class NotificationControllerTest {
     @Captor
     private ArgumentCaptor<MessageRequest> messageRequestCaptor;
 
+    @Captor
+    private ArgumentCaptor<MultiReceiverMessageRequest> multiReceiverMessageRequestArgumentCaptor;
     @Test
     void sendNotificationToCustomer() throws Exception {
         //given
@@ -138,6 +144,52 @@ class NotificationControllerTest {
                 .content(objectMapper.writeValueAsString(messageDto))
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andReturn();
+        //then
+        Assertions.assertEquals(0, result.getResponse().getContentLength());
+        Mockito.verify(notificationServiceMock, Mockito.times(0))
+                .sendMessageToUser(messageRequestCaptor.capture());
+        Mockito.verifyNoMoreInteractions(notificationServiceMock);
+    }
+
+    @Test
+    void sendNotificationToUsers() throws Exception {
+        //given
+
+        CreateMessageToUsersDto messageDto = new CreateMessageToUsersDto();
+        messageDto.setContent(CONTENT);
+        messageDto.setSubject(SUBJECT);
+        messageDto.setReceiverEmails(List.of(RECEIVER_MAIL, RECEIVER_MAIL));
+        //when
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
+                        .post(BASE_URL + "/users")
+                        .content(objectMapper.writeValueAsString(messageDto))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.status().isNoContent())
+                .andReturn();
+        //then
+        Assertions.assertEquals(0, result.getResponse().getContentLength());
+        Mockito.verify(notificationServiceMock, Mockito.times(1))
+                .sendMessageToUsers(multiReceiverMessageRequestArgumentCaptor.capture());
+        Mockito.verifyNoMoreInteractions(notificationServiceMock);
+    }
+
+    @Test
+    void sendNotificationToUsers_nullReceiver() throws Exception {
+        //given
+
+        CreateMessageToUsersDto messageDto = new CreateMessageToUsersDto();
+        messageDto.setContent(CONTENT);
+        messageDto.setSubject(SUBJECT);
+        messageDto.setReceiverEmails(null);
+        //when
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
+                        .post(BASE_URL + "/users")
+                        .content(objectMapper.writeValueAsString(messageDto))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andReturn();
         //then

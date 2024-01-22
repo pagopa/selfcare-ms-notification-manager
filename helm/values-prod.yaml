@@ -1,5 +1,3 @@
-replicaCount: 2
-
 image:
   repository: selcpacr.azurecr.io/selfcaremsnotificationmanager
   pullPolicy: Always # TODO change me in IfNotPresent when each build will have a different tag
@@ -8,23 +6,6 @@ image:
 ingress:
   annotations:
     nginx.ingress.kubernetes.io/cors-allow-origin: "https://selfcare.pagopa.it"
-  tls:
-    - hosts:
-        - selc.internal.selfcare.pagopa.it
-      secretName: selc-internal-selfcare-pagopa-it
-  hosts:
-    - host: selc.internal.selfcare.pagopa.it
-      paths:
-        - path: /ms-notification-manager/(.*)
-          pathType: ImplementationSpecific
-
-resources:
-  requests:
-    cpu: 200m
-    memory: 700M
-  limits:
-    cpu: 500m
-    memory: 800M
 
 autoscaling:
   enabled: false
@@ -35,7 +16,7 @@ autoscaling:
 
 pdb:
   enabled: true
-  minAvailable: 1
+  minAvailable: 2
 
 configEnvSpecific:
   JAVA_TOOL_OPTIONS: "-javaagent:/applicationinsights-agent.jar"
@@ -44,3 +25,4 @@ configEnvSpecific:
   CUSTOMER_CARE_MAIL: "areariservata@assistenza.pagopa.it"
   CUSTOMER_CARE_MAIL_SUBJECT_PREFIX: ""
   NOTIFICATION_TO_USER_SUBJECT_PREFIX: ""
+  MAIL_CONNECTOR_TYPE: aws

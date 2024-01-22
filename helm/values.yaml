@@ -89,4 +89,4 @@ affinity: {}
 
 config:
   APPLICATIONINSIGHTS_ROLE_NAME: "ms-notification-manager"
-  NO_REPLY_MAIL: "Selfcare <noreply@selfcare.pagopa.it>"
+  NO_REPLY_MAIL: "Area Riservata <noreply@areariservata.pagopa.it>"

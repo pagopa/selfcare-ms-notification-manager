@@ -15,7 +15,7 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 pdb:
-  enabled: false
+  enabled: true
   minAvailable: 2
 
 configEnvSpecific:

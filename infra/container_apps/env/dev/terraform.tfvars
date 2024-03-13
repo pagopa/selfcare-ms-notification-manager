@@ -9,7 +9,7 @@ tags = {
 }
 
 container_app = {
-  min_replicas = 0
+  min_replicas = 1
   max_replicas = 1
   scale_rules  = []
   cpu          = 0.5
@@ -73,4 +73,5 @@ secrets_names = {
   "AWS_SES_ACCESS_KEY_ID"                 = "aws-ses-access-key-id"
   "AWS_SES_SECRET_ACCESS_KEY"             = "aws-ses-secret-access-key"
   "APPLICATIONINSIGHTS_CONNECTION_STRING" = "appinsights-connection-string"
+  "JWT_TOKEN_PUBLIC_KEY"                  = "jwt-public-key"
 }

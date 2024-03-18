@@ -11,10 +11,6 @@ import software.amazon.awssdk.services.ses.SesClient;
 import software.amazon.awssdk.services.ses.model.*;
 
 @Slf4j
-@Service
-@ConditionalOnProperty(
-        value="spring.mail.connector.type",
-        havingValue = "aws")
 public class NotificationConnectorAws implements NotificationConnector {
 
     private final SesClient sesClient;

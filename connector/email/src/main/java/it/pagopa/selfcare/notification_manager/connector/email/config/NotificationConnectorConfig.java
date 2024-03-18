@@ -18,6 +18,8 @@ public class NotificationConnectorConfig {
     private ApplicationContext appContext;
     @Bean
     public NotificationConnector notificationConnector(@Value("${spring.mail.connector.type}") String connectorType) {
+        System.out.println("connectorType: " + connectorType);
+        System.out.println("connectorType aws: " + "aws".equalsIgnoreCase(connectorType));
         if("aws".equalsIgnoreCase(connectorType)){
             SesClient sesClient = appContext.getBean(SesClient.class);
             return new NotificationConnectorAws(sesClient);

@@ -15,11 +15,6 @@ import org.springframework.util.Assert;
 import javax.mail.internet.MimeMessage;
 
 @Slf4j
-@Service
-@ConditionalOnProperty(
-        value="spring.mail.connector.type",
-        havingValue = "default",
-        matchIfMissing = true)
 public class NotificationConnectorImpl implements NotificationConnector {
 
     private final JavaMailSender mailSender;

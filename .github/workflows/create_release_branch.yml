@@ -26,8 +26,8 @@ jobs:
       - name: Create Release Branch
         uses: pagopa/selfcare-commons/github-actions-template/create-release@create-release-action
         with:
-          version-bump: ${{ inputs.version-bump }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          version_bump: ${{ inputs.version-bump }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Trigger release ms UAT Release
         run: |

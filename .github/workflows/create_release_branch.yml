@@ -26,7 +26,7 @@ jobs:
     steps:
 
       - name: Create Release Branch
-        uses: pagopa/selfcare-commons/github-actions-template/create-release@create-release-action
+        uses: pagopa/selfcare-commons/github-actions-template/create-release@main
         with:
           version_bump: ${{ inputs.version-bump }}
           github_path_token: ${{ secrets.GH_PAT_VARIABLES }}

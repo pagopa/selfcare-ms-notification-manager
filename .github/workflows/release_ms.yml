@@ -55,3 +55,17 @@ jobs:
       environment: prod
       tf_environment: prod
       dir: 'infra/container_apps'
+
+  promote_release:
+    name: 'Promote prerelase release'
+    runs-on: ubuntu-20.04
+    needs: [release_prod]
+    steps:
+
+      - name: Promote Repository Release
+        run: |
+          gh release edit v${{ vars.CURRENT_PROD_VERSION }} \
+            --target releases/${{ env.CURRENT_PROD_VERSION }} \
+            --prerelease=false \
+            --latest \
+            --verify-tag

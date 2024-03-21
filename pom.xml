@@ -14,7 +14,7 @@
     <name>selc-notification-manager</name>
     <description>Microservice to manage Self Care Notification</description>
     <properties>
-        <selc-commons.version>2.4.6</selc-commons.version>
+        <selc-commons.version>2.5.1</selc-commons.version>
         <sonar.host.url>https://sonarcloud.io/</sonar.host.url>
     </properties>
     <dependencyManagement>

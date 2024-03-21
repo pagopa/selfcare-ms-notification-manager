@@ -72,14 +72,6 @@ app_settings = [
     value = false
   },
   {
-    name  = "MAIL_SERVER_HOST"
-    value = "smtp.gmail.com"
-  },
-  {
-    name  = "MAIL_SERVER_PORT"
-    value = 587
-  },
-  {
     name  = "AWS_SES_REGION"
     value = "eu-south-1"
   }

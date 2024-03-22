@@ -58,6 +58,7 @@ jobs:
 
   promote_release:
     name: 'Promote prerelase release'
+    runs-on: ubuntu-20.04
     needs: [release_prod]
       secrets: inherit
     steps:

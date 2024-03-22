@@ -49,7 +49,7 @@ jobs:
   release_prod:
     uses: pagopa/selfcare-commons/.github/workflows/call_release_docker.yml@main
     name: '[Prod] NotificationManager ms Release'
-    if: ${{ inputs.env == 'prod' }}
+    if: ${{ inputs.env == 'test' }}
     secrets: inherit
     with:
       environment: prod
@@ -59,7 +59,7 @@ jobs:
   promote_release:
     name: 'Promote prerelase release'
     runs-on: ubuntu-20.04
-    needs: [release_prod]
+    if: ${{ inputs.env == 'prod' }}
     steps:
       - uses:  pagopa/selfcare-commons/github-actions-template/promote-release@ops/promote-release-action
         with:

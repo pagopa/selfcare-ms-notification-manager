@@ -35,10 +35,10 @@ jobs:
       - name: Trigger release ms UAT Release
         run: |
           gh workflow run release_ms.yml \
-            --ref {{ steps.create_branch.outputs.new_branch_name }}
+            --ref ${{ steps.create_branch.outputs.new_branch_name }}
 
       - name: Trigger PNPG release ms UAT Release
         run: |
           gh workflow run release_ms_pnpg.yml \
-            --ref {{ steps.create_branch.outputs.new_branch_name }}
+            --ref ${{ steps.create_branch.outputs.new_branch_name }}
         

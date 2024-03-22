@@ -57,9 +57,10 @@ jobs:
       dir: 'infra/container_apps'
 
   promote_release:
-    uses:  pagopa/selfcare-commons/github-actions-template/promote-release@ops/promote-release-action
     name: 'Promote prerelase release'
     needs: [release_prod]
-    secrets: inherit
-    with:
-      github_path_token: ${{ secrets.GH_PAT_VARIABLES }}
+      secrets: inherit
+    steps:
+      - uses:  pagopa/selfcare-commons/github-actions-template/promote-release@ops/promote-release-action
+        with:
+          github_path_token: ${{ secrets.GH_PAT_VARIABLES }}

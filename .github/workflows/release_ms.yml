@@ -64,3 +64,4 @@ jobs:
       - uses:  pagopa/selfcare-commons/github-actions-template/promote-release@ops/promote-release-action
         with:
           github_path_token: ${{ secrets.GH_PAT_VARIABLES }}
+          release_version: ${{ vars.CURRENT_UAT_VERSION }}

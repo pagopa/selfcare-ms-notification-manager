@@ -16,7 +16,7 @@ container_app = {
     {
       custom = {
         metadata = {
-          "desiredReplicas" = "3"
+          "desiredReplicas" = "2"
           "start"           = "0 8 * * MON-FRI"
           "end"             = "0 19 * * MON-FRI"
           "timezone"        = "Europe/Rome"
@@ -26,8 +26,8 @@ container_app = {
       name = "cron-scale-rule"
     }
   ]
-  cpu    = 1.25
-  memory = "2.5Gi"
+  cpu    = 0.5
+  memory = "1Gi"
 }
 
 app_settings = [
@@ -74,12 +74,14 @@ app_settings = [
   {
     name  = "AWS_SES_REGION"
     value = "eu-south-1"
+  },
+  {
+    name  = "MAIL_SERVER_SMTP_AUTH"
+    value = "false"
   }
 ]
 
 secrets_names = {
-  "MAIL_SERVER_USERNAME"                  = "smtp-not-pec-usr"
-  "MAIL_SERVER_PASSWORD"                  = "smtp-not-pec-psw"
   "AWS_SES_ACCESS_KEY_ID"                 = "aws-ses-access-key-id"
   "AWS_SES_SECRET_ACCESS_KEY"             = "aws-ses-secret-access-key"
   "APPLICATIONINSIGHTS_CONNECTION_STRING" = "appinsights-connection-string"

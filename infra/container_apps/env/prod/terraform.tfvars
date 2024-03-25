@@ -15,7 +15,7 @@ container_app = {
     {
       custom = {
         metadata = {
-          "desiredReplicas" = "3"
+          "desiredReplicas" = "2"
           "start"           = "0 8 * * MON-FRI"
           "end"             = "0 19 * * MON-FRI"
           "timezone"        = "Europe/Rome"
@@ -25,8 +25,8 @@ container_app = {
       name = "cron-scale-rule"
     }
   ]
-  cpu    = 1.25
-  memory = "2.5Gi"
+  cpu    = 0.5
+  memory = "1Gi"
 }
 
 app_settings = [

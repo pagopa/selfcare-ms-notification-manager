@@ -18,7 +18,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_container_app_dashboard_backend"></a> [container\_app\_dashboard\_backend](#module\_container\_app\_dashboard\_backend) | github.com/pagopa/selfcare-commons//infra/terraform-modules/container_app_microservice | main |
+| <a name="module_container_app_notification_mngr"></a> [container\_app\_notification\_mngr](#module\_container\_app\_notification\_mngr) | github.com/pagopa/selfcare-commons//infra/terraform-modules/container_app_microservice | main |
 
 ## Resources
 

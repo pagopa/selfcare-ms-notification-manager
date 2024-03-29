@@ -76,10 +76,6 @@ app_settings = [
   {
     name  = "AWS_SES_REGION"
     value = "eu-south-1"
-  },
-  {
-    name  = "MAIL_SERVER_SMTP_AUTH"
-    value = "false"
   }
 ]
 

@@ -16,6 +16,7 @@ module "container_app_notification_mngr" {
   env_short          = var.env_short
   container_app      = var.container_app
   container_app_name = "notification-mngr"
+  container_app_environment_name = local.container_app_environment_name
   image_name         = "selfcare-ms-notification-manager"
   image_tag          = var.image_tag
   app_settings       = var.app_settings

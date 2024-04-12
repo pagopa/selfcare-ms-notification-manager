@@ -59,7 +59,9 @@ public class NotificationConnectorAws implements NotificationConnector {
 
         try {
             log.trace("Attempting to send an email through Amazon SES using the AWS SDK for Java...");
-            sesClient.sendEmail(emailRequest);
+            log.info("Sending email to: {} with subject: {}", mailRequest.getTo(), mailRequest.getSubject());
+            SendEmailResponse response = sesClient.sendEmail(emailRequest);
+            log.info("Email sent with message ID: {}", response.messageId());
         } catch (SesException e) {
             log.error(e.getMessage());
             throw new MailException(e);

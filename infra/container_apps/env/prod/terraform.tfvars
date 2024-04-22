@@ -64,7 +64,7 @@ app_settings = [
   },
   {
     name  = "MAIL_CONNECTOR_TYPE"
-    value = "aws"
+    value = "default"
   },
   {
     name  = "AWS_SES_REGION"

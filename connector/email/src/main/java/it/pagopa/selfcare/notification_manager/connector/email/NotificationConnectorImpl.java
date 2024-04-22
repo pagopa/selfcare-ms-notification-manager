@@ -18,8 +18,7 @@ import javax.mail.internet.MimeMessage;
 @Service
 @ConditionalOnProperty(
         value="spring.mail.connector.type",
-        havingValue = "default",
-        matchIfMissing = true)
+        havingValue = "smtp")
 public class NotificationConnectorImpl implements NotificationConnector {
 
     private final JavaMailSender mailSender;

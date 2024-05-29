@@ -20,6 +20,6 @@ jobs:
         - name: Run Optic
           id: optic_diff
           run: |
-            OUTPUT=$(optic diff app/src/main/resources/swagger/api-docs.json --base main --check)
+            OUTPUT=$(optic diff app/src/main/resources/swagger/api-docs.json --base origin/main --check)
             echo "$OUTPUT"
             echo "::set-output name=optic_output::$OUTPUT"

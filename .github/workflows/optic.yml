@@ -14,8 +14,10 @@ jobs:
  
       - name: Install Optic
         run: npm install --location global @useoptic/optic
- 
+
       - name: Run Optic
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: optic run
+        id: optic_diff
+        run: |
+            OUTPUT=$(optic diff app/src/main/resources/swagger/api-docs.json --base main --check)
+            echo "$OUTPUT"
+            echo "::set-output name=optic_output::$OUTPUT"

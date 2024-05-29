@@ -23,4 +23,9 @@ public class CreateMessageToUserDto {
     @JsonProperty(required = true)
     @NotBlank
     String receiverEmail;
+
+    @ApiModelProperty(value = "${swagger.notification_manager.model.receiverEmail}")
+    @JsonProperty()
+    @NotBlank
+    String example;
 }

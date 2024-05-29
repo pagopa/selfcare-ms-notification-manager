@@ -195,7 +195,7 @@
     "schemas" : {
       "CreateMessageToCustomerCareDto" : {
         "title" : "CreateMessageToCustomerCareDto",
-        "required" : [ "content", "subject", "senderEmail" ],
+        "required" : [ "content", "subject" ],
         "type" : "object",
         "properties" : {
           "content" : {
@@ -207,10 +207,6 @@
             "description" : "Notification message sender email"
           },
           "subject" : {
-            "type" : "string",
-            "description" : "Notification message subject"
-          },
-          "example" : {
             "type" : "string",
             "description" : "Notification message subject"
           }

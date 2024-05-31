@@ -65,7 +65,7 @@ app_settings = [
   },
   {
     name  = "MAIL_CONNECTOR_TYPE"
-    value = "aws"
+    value = "default"
   },
   {
     name  = "MAIL_SERVER_SMTP_AUTH"
@@ -86,8 +86,6 @@ app_settings = [
 ]
 
 secrets_names = {
-  "MAIL_SERVER_USERNAME"                  = "smtp-not-pec-usr"
-  "MAIL_SERVER_PASSWORD"                  = "smtp-not-pec-psw"
   "AWS_SES_ACCESS_KEY_ID"                 = "aws-ses-access-key-id"
   "AWS_SES_SECRET_ACCESS_KEY"             = "aws-ses-secret-access-key"
   "APPLICATIONINSIGHTS_CONNECTION_STRING" = "appinsights-connection-string"

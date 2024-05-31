@@ -221,10 +221,6 @@
             "type" : "string",
             "description" : "Notification message content"
           },
-          "example" : {
-            "type" : "string",
-            "description" : "Notification message receiver email"
-          },
           "receiverEmail" : {
             "type" : "string",
             "description" : "Notification message receiver email"

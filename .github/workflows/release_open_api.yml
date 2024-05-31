@@ -1,9 +1,6 @@
 name: Swagger Detect Conflict and Update
 on:
   pull_request:
-    branches:
-      - main
-      - releases/**
     types: [ opened, synchronize, reopened ]
   push:
     

@@ -21,6 +21,12 @@
             <groupId>it.pagopa.selfcare</groupId>
             <artifactId>selc-notification-manager-connector-api</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>it.pagopa.selfcare</groupId>
+            <artifactId>onboarding-sdk-product</artifactId>
+            <version>0.1.10</version>
+        </dependency>
     </dependencies>
 
 

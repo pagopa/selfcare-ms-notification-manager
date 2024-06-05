@@ -233,7 +233,7 @@
       },
       "CreateMessageToUsersDto" : {
         "title" : "CreateMessageToUsersDto",
-        "required" : [ "content", "receiverEmails", "subject" ],
+        "required" : [ "content", "subject" ],
         "type" : "object",
         "properties" : {
           "content" : {

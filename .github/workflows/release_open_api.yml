@@ -16,3 +16,4 @@ jobs:
         uses: pagopa/selfcare-commons/github-actions-template/swagger-detect-conflict-spring@feature/SELC-5008
         with:
           path_openapi_docs: app/src/main/resources/swagger/api-docs.json
+          github_token: ${{ secrets.GITHUB_TOKEN }}

@@ -21,8 +21,6 @@ public class CreateMessageToUsersDto {
     @NotBlank
     String subject;
 
-    @ApiModelProperty(value = "${swagger.notification_manager.model.receiverEmail}", required = true)
-    @JsonProperty(required = true)
-    @NotNull
+    @ApiModelProperty(value = "${swagger.notification_manager.model.receiverEmail}")
     List<String> receiverEmails;
 }
